@@ -1,0 +1,754 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - SwiftCart{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background-color: var(--body-bg);
+    }
+
+    .auth-container {
+        max-width: 450px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .register-card {
+        background: var(--surface);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+    }
+
+    .register-header {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+    }
+
+    .register-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .register-header p {
+        font-size: 14px;
+        opacity: 0.9;
+    }
+
+    .register-body {
+        padding: 30px 25px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+        display: block;
+        font-size: 14px;
+    }
+
+    .form-control {
+        border: 2px solid rgba(165, 180, 252, 0.4);
+        border-radius: 6px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: #9ca3af;
+    }
+
+    .password-requirements {
+        background: rgba(102, 126, 234, 0.12);
+        border-left: 4px solid var(--primary-color);
+        padding: 12px;
+        margin-top: 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+    .password-requirements ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .password-requirements li {
+        margin: 5px 0;
+    }
+
+    .btn-register {
+        width: 100%;
+        padding: 12px;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.25);
+    }
+
+    .btn-register:active {
+        transform: translateY(0);
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .login-link p {
+        color: var(--text-muted);
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .login-link a {
+        color: var(--primary-color);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .alert {
+        border-radius: 6px;
+        border: none;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .alert-danger {
+        background-color: rgba(254, 226, 226, 0.8);
+        color: #b91c1c;
+    }
+
+    .alert-success {
+        background-color: rgba(220, 252, 231, 0.8);
+        color: #15803d;
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .form-group.has-error .form-control {
+        border-color: #dc3545;
+    }
+
+    @media (max-width: 576px) {
+        .auth-container {
+            padding: 15px;
+        }
+
+        .register-body {
+            padding: 20px 15px;
+        }
+
+        .register-header {
+            padding: 20px 15px;
+        }
+
+        .register-header h1 {
+            font-size: 24px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="register-card">
+        <div class="register-header">
+            <h1>Create Account</h1>
+            <p>Join SwiftCart today</p>
+        </div>
+
+        <div class="register-body">
+            <!-- Display Messages -->
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                <!-- Full Name Field -->
+                <div class="form-group {% if form.full_name.errors %}has-error{% endif %}">
+                    <label for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }}</label>
+                    {{ form.full_name }}
+                    {% if form.full_name.errors %}
+                    <div class="error-message">
+                        {% for error in form.full_name.errors %}
+                        <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <div class="error-message">
+                        {% for error in form.email.errors %}
+                        <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group {% if form.password1.errors %}has-error{% endif %}">
+                    <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                    {{ form.password1 }}
+                    <div class="password-requirements">
+                        <strong>Password must contain:</strong>
+                        <ul>
+                            <li>At least 8 characters</li>
+                            <li>At least one number</li>
+                            <li>At least one special character (!@#$%^&*)</li>
+                        </ul>
+                    </div>
+                    {% if form.password1.errors %}
+                    <div class="error-message">
+                        {% for error in form.password1.errors %}
+                        <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
+                    <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                    <div class="error-message">
+                        {% for error in form.password2.errors %}
+                        <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-register">Create Account</button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="login-link">
+                <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+font-size: 14px;
+opacity: 0.9;
+}
+
+.register-body {
+padding: 30px 25px;
+}
+
+.form-group {
+margin-bottom: 20px;
+}
+
+.form-group label {
+font-weight: 600;
+color: #333;
+margin-bottom: 8px;
+display: block;
+font-size: 14px;
+}
+
+.form-control {
+border: 2px solid #e0e0e0;
+border-radius: 6px;
+padding: 12px 15px;
+font-size: 14px;
+transition: all 0.3s ease;
+}
+
+.form-control:focus {
+border-color: #667eea;
+box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+outline: none;
+}
+
+.form-control::placeholder {
+color: #999;
+}
+
+.password-requirements {
+background: #f5f5f5;
+border-left: 4px solid #667eea;
+padding: 12px;
+margin-top: 10px;
+border-radius: 4px;
+font-size: 12px;
+color: #555;
+}
+
+.password-requirements ul {
+margin: 0;
+padding-left: 20px;
+}
+
+.password-requirements li {
+margin: 5px 0;
+}
+
+.btn-register {
+width: 100%;
+padding: 12px;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+color: white;
+border: none;
+border-radius: 6px;
+font-weight: 600;
+font-size: 16px;
+cursor: pointer;
+transition: all 0.3s ease;
+margin-top: 10px;
+}
+
+.btn-register:hover {
+transform: translateY(-2px);
+box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-register:active {
+transform: translateY(0);
+}
+
+.login-link {
+text-align: center;
+margin-top: 20px;
+padding-top: 20px;
+border-top: 1px solid #e0e0e0;
+}
+
+.login-link p {
+color: #666;
+font-size: 14px;
+margin: 0;
+}
+
+.login-link a {
+color: #667eea;
+font-weight: 600;
+text-decoration: none;
+}
+
+.login-link a:hover {
+text-decoration: underline;
+}
+
+.alert {
+border-radius: 6px;
+border: none;
+margin-bottom: 20px;
+font-size: 14px;
+}
+
+.alert-danger {
+background-color: #fee;
+color: #c33;
+}
+
+.alert-success {
+background-color: #efe;
+color: #3c3;
+}
+
+.error-message {
+color: #dc3545;
+font-size: 12px;
+margin-top: 5px;
+}
+
+.form-group.has-error .form-control {
+border-color: #dc3545;
+}
+
+@media (max-width: 576px) {
+.container-custom {
+padding: 15px;
+}
+
+.register-body {
+padding: 20px 15px;
+}
+
+.register-header {
+padding: 20px 15px;
+}
+
+.register-header h1 {
+font-size: 24px;
+}
+}
+</style>
+</head>
+
+<body>
+    <div class="container-custom">
+        <div class="register-card">
+            <div class="register-header">
+                <h1>SwiftCart</h1>
+                <p>Create Your Account</p>
+            </div>
+
+            <div class="register-body">
+                <!-- Display Messages -->
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Full Name Field -->
+                    <div class="form-group {% if form.full_name.errors %}has-error{% endif %}">
+                        <label for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }}</label>
+                        {{ form.full_name }}
+                        {% if form.full_name.errors %}
+                        <div class="error-message">
+                            {% for error in form.full_name.errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <div class="error-message">
+                            {% for error in form.email.errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group {% if form.password1.errors %}has-error{% endif %}">
+                        <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                        {{ form.password1 }}
+                        <div class="password-requirements">
+                            <strong>Password must contain:</strong>
+                            <ul>
+                                <li>At least 8 characters</li>
+                                <li>At least one number</li>
+                                <li>At least one special character (!@#$%^&*)</li>
+                            </ul>
+                        </div>
+                        {% if form.password1.errors %}
+                        <div class="error-message">
+                            {% for error in form.password1.errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
+                        <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                        <div class="error-message">
+                            {% for error in form.password2.errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-register">Create Account</button>
+                </form>
+
+                <!-- Login Link -->
+                <div class="login-link">
+                    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+}
+
+.form-control {
+border: 2px solid #e0e0e0;
+border-radius: 6px;
+padding: 12px 15px;
+font-size: 14px;
+transition: all 0.3s ease;
+}
+
+.form-control:focus {
+border-color: #667eea;
+box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+outline: none;
+}
+
+.form-control::placeholder {
+color: #999;
+}
+
+.password-requirements {
+background: #f5f5f5;
+border-left: 4px solid #667eea;
+padding: 12px;
+margin-top: 10px;
+border-radius: 4px;
+font-size: 12px;
+color: #555;
+}
+
+.password-requirements ul {
+margin: 0;
+padding-left: 20px;
+}
+
+.password-requirements li {
+margin: 5px 0;
+}
+
+.btn-register {
+width: 100%;
+padding: 12px;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+color: white;
+border: none;
+border-radius: 6px;
+font-weight: 600;
+font-size: 16px;
+cursor: pointer;
+transition: all 0.3s ease;
+margin-top: 10px;
+}
+
+.btn-register:hover {
+transform: translateY(-2px);
+box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-register:active {
+transform: translateY(0);
+}
+
+.login-link {
+text-align: center;
+margin-top: 20px;
+padding-top: 20px;
+border-top: 1px solid #e0e0e0;
+}
+
+.login-link p {
+color: #666;
+font-size: 14px;
+margin: 0;
+}
+
+.login-link a {
+color: #667eea;
+font-weight: 600;
+text-decoration: none;
+}
+
+.login-link a:hover {
+text-decoration: underline;
+}
+
+.alert {
+border-radius: 6px;
+border: none;
+margin-bottom: 20px;
+font-size: 14px;
+}
+
+.alert-danger {
+background-color: #fee;
+color: #c33;
+}
+
+.alert-success {
+background-color: #efe;
+color: #3c3;
+}
+
+.error-message {
+color: #dc3545;
+font-size: 12px;
+margin-top: 5px;
+}
+
+.form-group.has-error .form-control {
+border-color: #dc3545;
+}
+
+@media (max-width: 576px) {
+.container-custom {
+padding: 15px;
+}
+
+.register-body {
+padding: 20px 15px;
+}
+
+.register-header {
+padding: 20px 15px;
+}
+
+.register-header h1 {
+font-size: 24px;
+}
+}
+</style>
+</head>
+
+<body>
+    <div class="container-custom">
+        <div class="register-card">
+            <div class="register-header">
+                <h1>SwiftCart</h1>
+                <p>Create Your Account</p>
+            </div>
+
+            <div class="register-body">
+                <!-- Display Messages -->
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Full Name Field -->
+                    <div class="form-group {% if form.full_name.errors %}has-error{% endif %}">
+                        <label for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }}</label>
+                        {{ form.full_name }}
+                        {% if form.full_name.errors %}
+                        <div class="error-message">
+                            {% for error in form.full_name.errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <div class="error-message">
+                            {% for error in form.email.errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group {% if form.password1.errors %}has-error{% endif %}">
+                        <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                        {{ form.password1 }}
+                        <div class="password-requirements">
+                            <strong>Password must contain:</strong>
+                            <ul>
+                                <li>At least 8 characters</li>
+                                <li>At least one number</li>
+                                <li>At least one special character (!@#$%^&*)</li>
+                            </ul>
+                        </div>
+                        {% if form.password1.errors %}
+                        <div class="error-message">
+                            {% for error in form.password1.errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
+                        <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                        <div class="error-message">
+                            {% for error in form.password2.errors %}
+                            <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-register">Create Account</button>
+                </form>
+
+                <!-- Login Link -->
+                <div class="login-link">
+                    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
