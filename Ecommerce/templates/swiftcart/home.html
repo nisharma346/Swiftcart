@@ -38,87 +38,92 @@
         transform: translateY(-2px);
     }
 
-    .hero {
-        background: linear-gradient(135deg, #0d3db0 0%, #2f6dff 55%, #ff7a10 100%);
-        color: white;
-        padding: 110px 0 90px 0;
+    /* ==================== HERO CAROUSEL ==================== */
+    .hero-carousel {
         margin-bottom: 40px;
+        position: relative;
+        width: 100%;
+        height: 620px;
+        min-height: 520px;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        min-height: 420px;
     }
 
-    .hero-banner {
+    .hero-carousel .carousel-item {
+        position: relative;
+        height: 100%;
+    }
+
+    .hero-carousel .carousel-item img,
+    .hero-carousel img {
         width: 100%;
         height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        opacity: 0.06;
-        pointer-events: none;
+        display: block;
         object-fit: cover;
+        object-position: center center !important;
+        margin: 0 auto;
     }
 
-    .hero .container-section {
-        position: relative;
-        z-index: 2;
-        max-width: 980px;
+    .hero-carousel .carousel-caption,
+    .banner-label,
+    .banner-subtitle,
+    .hero-carousel .carousel-caption .btn-hero,
+    .hero-carousel .carousel-caption .btn-hero:hover {
+        display: none;
     }
 
-    .hero h1 {
-        font-size: 64px;
-        font-weight: 800;
-        margin-bottom: 18px;
-        letter-spacing: -1px;
+    .hero-carousel .carousel-indicators [data-bs-target] {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: rgba(255, 255, 255, 0.6);
     }
 
-    .hero p {
-        font-size: 18px;
-        margin-bottom: 28px;
-        opacity: 0.95;
+    .hero-carousel .carousel-indicators .active {
+        background-color: #ffffff;
     }
 
-    .btn-primary-custom {
-        background: white;
-        color: var(--primary-color);
-        border: none;
-        padding: 12px 36px;
-        border-radius: 28px;
-        font-weight: 700;
-        transition: transform 0.22s ease, box-shadow 0.22s ease;
-        box-shadow: 0 8px 22px rgba(79, 67, 152, 0.12);
-        text-decoration: none;
-        display: inline-block;
-        margin: 0 10px;
+    .hero-carousel .carousel-control-prev,
+    .hero-carousel .carousel-control-next {
+        width: 6%;
     }
 
-    .btn-primary-custom:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 16px 30px rgba(79, 67, 152, 0.18);
+    .hero-welcome {
+        text-align: center;
+        padding: 14px 0;
+        background: var(--surface);
     }
 
-    .btn-secondary-custom {
-        background: transparent;
-        color: white;
-        border: 2px solid rgba(255, 255, 255, 0.28);
-        padding: 10px 30px;
-        border-radius: 28px;
-        font-weight: 600;
-        transition: all 0.22s ease;
-        text-decoration: none;
-        display: inline-block;
-        margin: 0 10px;
+    .hero-welcome p {
+        font-size: 15px;
+        color: var(--text-muted);
+        margin: 0;
     }
 
-    .btn-secondary-custom:hover {
-        background: rgba(255, 255, 255, 0.18);
-        color: white;
-        transform: translateY(-3px);
+    .hero-welcome strong {
+        color: var(--text-dark);
     }
 
+    @media (max-width: 768px) {
+        .hero-carousel .carousel-item img {
+            max-height: 280px;
+        }
+
+        .hero-carousel .carousel-caption {
+            left: 6%;
+            max-width: 80%;
+        }
+
+        .hero-carousel .carousel-caption h1 {
+            font-size: 22px !important;
+        }
+
+        .hero-carousel .carousel-caption p {
+            font-size: 13px !important;
+        }
+    }
+
+    /* ==================== FEATURES ==================== */
     .features {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -162,59 +167,68 @@
         margin: 0 auto;
         padding: 0 20px;
     }
-
-    .user-info {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 14px;
-    }
-
-    .user-info strong {
-        color: white;
-    }
-
-    @media (max-width: 768px) {
-        .hero h1 {
-            font-size: 32px;
-        }
-
-        .hero p {
-            font-size: 16px;
-        }
-
-        .btn-primary-custom,
-        .btn-secondary-custom {
-            margin: 5px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 80%;
-        }
-    }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<div class="hero">
-    <div class="container-section">
-        <h1>Welcome to SwiftCart</h1>
-        <p>Your ultimate e-commerce solution for shopping online</p>
-        {% if not user.is_authenticated %}
-        <div>
-            <a href="{% url 'register' %}" class="btn-primary-custom">Get Started</a>
-            <a href="{% url 'login' %}" class="btn-secondary-custom">Login</a>
-        </div>
-        {% else %}
-        <div>
-            <p style="font-size: 16px;">Happy shopping, {{ user.full_name }}!</p>
-        </div>
-        {% endif %}
+<!-- Hero Slider -->
+<div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel" data-bs-interval="2500"
+    data-bs-pause="false">
+
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
+
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'images/banners/banner1-swiftcart.jpg' %}" alt="Mega Sale - up to 50% off">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'images/banners/banner2-swiftcart.jpg' %}" alt="New Arrivals - fresh styles">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'images/banners/banner3-swiftcart.jpg' %}" alt="Free Shipping on every order">
+        </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+{% if user.is_authenticated %}
+<div class="hero-welcome">
+    <p>Happy shopping, <strong>{{ user.full_name }}</strong>!</p>
+</div>
+{% endif %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var heroCarouselEl = document.getElementById('heroCarousel');
+        if (heroCarouselEl) {
+            new bootstrap.Carousel(heroCarouselEl, {
+                interval: 2500,
+                ride: 'carousel',
+                pause: false,
+                wrap: true
+            });
+        }
+    });
+</script>
+{% endblock %}
 
 <!-- Features Section -->
 <div id="features" class="container-section">
-    <h2 style="text-align: center; margin-bottom: 40px; color: var(--text-dark); font-weight: 700;">Why Choose
+    <h2 style="text-align: center; margin: 40px 0; color: var(--text-dark); font-weight: 700;">Why Choose
         SwiftCart?</h2>
 
     <div class="features">
