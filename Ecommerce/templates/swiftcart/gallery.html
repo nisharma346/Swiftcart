@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="fw-bold text-primary">Gallery</h2>
+            <p class="text-muted">Browse our latest featured images.</p>
+        </div>
+    </div>
+
+    {% if images %}
+    <div class="row g-4">
+        {% for image in images %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                {% if image.image %}
+                <img src="{{ image.image.url }}" class="card-img-top" alt="{{ image.title|default:'Gallery image' }}"
+                    style="height: 250px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ image.title|default:'Gallery Image' }}</h5>
+                    {% if image.caption %}
+                    <p class="card-text text-muted">{{ image.caption }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center" role="alert">
+        No gallery images available yet.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

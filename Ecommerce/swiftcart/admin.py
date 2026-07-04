@@ -1,8 +1,31 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import CustomUser
+from .models import Category, CustomUser, GalleryImage, Product
 
 # Register your models here.
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('name', 'description', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'category', 'price', 'stock', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at', 'category')
+    search_fields = ('name', 'description', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(GalleryImage)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'image', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('title', 'caption')
+
 
 @admin.register(CustomUser)
 class CustomUserAdmin(BaseUserAdmin):

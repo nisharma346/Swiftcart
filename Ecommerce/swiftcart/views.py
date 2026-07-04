@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserRegistrationForm
-from .models import CustomUser
+from .models import Category, CustomUser, GalleryImage, Product
 
 # Create your views here.
 
@@ -94,3 +94,61 @@ def user_logout(request):
     logout(request)
     messages.success(request, 'You have been logged out successfully.')
     return redirect('login')
+
+
+def product_list(request):
+    """Display all active products."""
+    products = Product.objects.filter(is_active=True).order_by('-created_at')
+    context = {
+        'products': products,
+        'page_title': 'Products'
+    }
+    return render(request, 'swiftcart/product_list.html', context)
+
+
+def product_detail(request, slug):
+    """Display details for a single product."""
+    product = Product.objects.filter(slug=slug, is_active=True).first()
+    if not product:
+        return render(request, 'swiftcart/404.html', {'page_title': 'Product not found'}, status=404)
+
+    context = {
+        'product': product,
+        'page_title': product.name
+    }
+    return render(request, 'swiftcart/product_detail.html', context)
+
+
+def category_list(request):
+    """Display all active categories."""
+    categories = Category.objects.filter(is_active=True).order_by('name')
+    context = {
+        'categories': categories,
+        'page_title': 'Categories'
+    }
+    return render(request, 'swiftcart/category.html', context)
+
+
+def category_detail(request, slug):
+    """Display a single category and its active products."""
+    category = Category.objects.filter(slug=slug, is_active=True).first()
+    if not category:
+        return render(request, 'swiftcart/404.html', {'page_title': 'Category not found'}, status=404)
+
+    products = category.products.filter(is_active=True).order_by('-created_at')
+    context = {
+        'category': category,
+        'products': products,
+        'page_title': category.name
+    }
+    return render(request, 'swiftcart/category_detail.html', context)
+
+
+def gallery(request):
+    """Display all active gallery images."""
+    images = GalleryImage.objects.filter(is_active=True).order_by('-created_at')
+    context = {
+        'images': images,
+        'page_title': 'Gallery'
+    }
+    return render(request, 'swiftcart/gallery.html', context)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -117,3 +118,82 @@ class CustomUser(AbstractUser):
     def get_full_name(self):
         """Return the full name of the user"""
         return self.full_name or f"{self.first_name} {self.last_name}".strip()
+
+
+class Category(models.Model):
+    """Product category model for organizing products."""
+
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='categories/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+class Product(models.Model):
+    """Product catalog model for the ecommerce store."""
+
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField(default=0)
+    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name='products',
+        blank=True,
+        null=True,
+    )
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('-created_at',)
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+class GalleryImage(models.Model):
+    """Gallery image model for showcasing images on the site."""
+
+    title = models.CharField(max_length=255, blank=True)
+    image = models.ImageField(upload_to='gallery/')
+    caption = models.CharField(max_length=255, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('-created_at',)
+        verbose_name = 'Gallery Image'
+        verbose_name_plural = 'Gallery Images'
+
+    def __str__(self):
+        return self.title or self.image.name
+    

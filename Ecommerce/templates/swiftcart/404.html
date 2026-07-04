@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found - SwiftCart{% endblock %}
+
+{% block content %}
+<section class="container-section py-5 text-center">
+    <h1 class="mb-3">Product not found</h1>
+    <p class="text-muted">The product you are looking for is no longer available or the link is invalid.</p>
+    <a href="{% url 'product_list' %}" class="btn btn-primary mt-4">Back to products</a>
+</section>
+{% endblock %}
