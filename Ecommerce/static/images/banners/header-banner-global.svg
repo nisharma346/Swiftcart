@@ -1,0 +1,18 @@
+<svg width="1600" height="220" viewBox="0 0 1600 220" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>SwiftCart Global Header Banner</title>
+  <desc>Plain wide header banner with a rich solid navy blue background and subtle darker decorative circles, used across all pages except the homepage.</desc>
+  <defs>
+    <linearGradient id="bgHeaderRichNavy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#071a4d"/>
+      <stop offset="50%" stop-color="#0a2160"/>
+      <stop offset="100%" stop-color="#0c2a70"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="220" fill="url(#bgHeaderRichNavy)"/>
+
+  <circle cx="1400" cy="50" r="140" fill="#ffffff" opacity="0.04"/>
+  <circle cx="80" cy="200" r="110" fill="#020c2e" opacity="0.45"/>
+  <circle cx="1550" cy="190" r="70" fill="#ffffff" opacity="0.03"/>
+  <path d="M0 220 L1600 220 L1600 190 C1200 210 900 165 550 190 C300 208 120 175 0 195 Z" fill="#ffffff" opacity="0.025"/>
+</svg>

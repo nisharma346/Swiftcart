@@ -18,6 +18,7 @@
         :root {
             --primary-gradient: linear-gradient(135deg, #0d3db0 0%, #2f6dff 60%, #ff7a10 100%);
             --primary-color: #0d3db0;
+            --secondary-color: #2f6dff;
             --accent-color: #ff7a10;
             --accent-light: #ffb052;
             --body-bg: #eef2ff;
@@ -29,6 +30,50 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--body-bg);
+        }
+
+        .btn-brand,
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 12px;
+            border: none;
+            color: #ffffff;
+            background: var(--primary-gradient);
+            box-shadow: 0 10px 25px rgba(13, 61, 176, 0.18);
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-brand:hover,
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(13, 61, 176, 0.22);
+            opacity: 0.97;
+        }
+
+        .btn-outline-brand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(13, 61, 176, 0.05);
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-outline-brand:hover {
+            background: rgba(13, 61, 176, 0.12);
+            color: var(--secondary-color);
         }
 
         /* ==================== NAVBAR STYLES ==================== */
@@ -311,107 +356,164 @@
                 height: 35px;
             }
         }
-    </style>
-    {% block extra_css %}{% endblock %}
-</head>
 
-<body>
-    <!-- ==================== NAVBAR ==================== -->
+        /* ==================== PAGE HEADER BANNER ==================== */
+        .page-header-banner {
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px 72px;
+            color: #ffffff;
+            isolation: isolate;
+            background: linear-gradient(135deg, #071a4d 0%, #0a2160 50%, #0c2a70 100%);
+        }
+
+        .page-header-banner .banner-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background-image: url('{% static "images/banners/header-banner-global.svg" %}');
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.02);
+        }
+
+        .page-header-banner .banner-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(7, 26, 77, 0.95) 0%, rgba(13, 61, 176, 0.8) 45%, rgba(255, 122, 16, 0.35) 100%);
+        }
+
+        .page-header-banner .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+        }
+
+        .page-header-banner h1,
+        .page-header-banner .banner-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .page-header-banner p,
+        .page-header-banner .banner-subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            margin: 0;
+            text-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 576px) {
+            .page-header-banner {
+                padding: 36px 15px 44px;
+                min-height: 230px;
+            }
+
+            .page-header-banner h1,
+            .page-header-banner .banner-title {
+                font-size: 24px;
+            }
+
+            .page-header-banner p,
+            .page-header-banner .banner-subtitle {
+                font-size: 14px;
+            }
+        }
+    </style>
+
+    <!--====================NAVBAR====================-->
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid px-3 px-md-4">
             <!-- Logo -->
             <a href="{% url 'home' %}" class="navbar-brand-custom" aria-label="SwiftCart home">
                 <img src="{% static 'images/swiftcart-logo.png' %}" alt="SwiftCart logo">
             </a>
-
             <!-- Toggler for mobile -->
             <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="#navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
-
-            <!-- Navbar content -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Left side links -->
                 <ul class="navbar-nav-custom">
                     <li class="nav-item">
                         <a href="{% url 'home' %}"
                             class="nav-link-custom {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-                            <i class="fas fa-home"></i> Home
+                            <i class="fas fa-home"></i>Home
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'product_list' %}"
                             class="nav-link-custom {% if request.resolver_match.url_name == 'product_list' %}active{% endif %}">
-                            <i class="fas fa-box"></i> Products
+                            <i class="fas fa-box"></i>Products
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'category' %}"
                             class="nav-link-custom {% if request.resolver_match.url_name == 'category' or request.resolver_match.url_name == 'category_detail' %}active{% endif %}">
-                            <i class="fas fa-list"></i> Category
+                            <i class="fas fa-list"></i>Category
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'gallery' %}"
                             class="nav-link-custom {% if request.resolver_match.url_name == 'gallery' %}active{% endif %}">
-                            <i class="fas fa-images"></i> Gallery
+                            <i class="fas fa-images"></i>Gallery
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link-custom">
-                            <i class="fas fa-info-circle"></i> About Us
+                        <a href="{% url 'about' %}"
+                            class="nav-link-custom {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            <i class="fas fa-info-circle"></i>About Us
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link-custom">
-                            <i class="fas fa-envelope"></i> Contact Us
+                        <a href="{% url 'contact' %}"
+                            class="nav-link-custom {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            <i class="fas fa-envelope"></i>Contact Us
                         </a>
                     </li>
                 </ul>
-
                 <!-- Right side icons and user menu -->
                 <div class="navbar-right">
                     <!-- Wishlist Icon -->
                     <a href="#" class="icon-link" title="Wishlist">
-                        <i class="far fa-heart"></i>
-                        <span class="badge-custom">0</span>
+                        <i class="far fa-heart"></i><span class="badge-custom">0</span>
                     </a>
-
                     <!-- Cart Icon -->
                     <a href="#" class="icon-link" title="Shopping Cart">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span class="badge-custom">0</span>
+                        <i class="fas fa-shopping-bag"></i><span class="badge-custom">0</span>
                     </a>
-
                     <!-- User Profile Dropdown -->
                     {% if user.is_authenticated %}
                     <div class="dropdown dropdown-custom">
                         <button class="dropdown-toggle dropdown-toggle-custom" type="button" id="userDropdown"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="user-avatar">
-                                {{ user.full_name|first|upper }}
-                            </div>
+                            <div class="user-avatar">{{ user.full_name|first|upper }}</div>
                             <span class="d-none d-md-inline">{{ user.full_name }}</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-custom dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a href="#" class="dropdown-item-custom"><i class="fas fa-user"></i> My Profile</a></li>
-                            <li><a href="#" class="dropdown-item-custom"><i class="fas fa-box"></i> My Orders</a></li>
+                            <li><a href="#" class="dropdown-item-custom"><i class="fas fa-user"></i>My Profile</a></li>
+                            <li><a href="#" class="dropdown-item-custom"><i class="fas fa-box"></i>My Orders</a></li>
                             <li>
                                 <hr class="dropdown-divider-custom">
                             </li>
                             <li><a href="{% url 'logout' %}" class="dropdown-item-custom"><i
-                                        class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                        class="fas fa-sign-out-alt"></i>Logout</a></li>
                         </ul>
                     </div>
                     {% else %}
-                    <a href="{% url 'login' %}" class="nav-link-custom">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </a>
+                    <a href="{% url 'login' %}" class="nav-link-custom"><i class="fas fa-sign-in-alt"></i>Login</a>
                     <a href="{% url 'register' %}" class="nav-link-custom"
                         style="background: rgba(255, 255, 255, 0.2);">
-                        <i class="fas fa-user-plus"></i> Register
+                        <i class="fas fa-user-plus"></i>Register
                     </a>
                     {% endif %}
                 </div>
@@ -421,14 +523,29 @@
 
     <!-- Main Content -->
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
 
-    <!-- Footer (Optional - you can add later) -->
-    {% block footer %}{% endblock %}
+    <!-- Footer -->
+    {% block footer %}
+    <footer
+        style="background: var(--primary-color); color: white; text-align: center; padding: 28px 20px; margin-top: 40px;">
+        <div class="container d-flex align-items-center justify-content-center" style="gap:14px;">
+            <img src="{% static 'images/swiftcart-logo.png' %}" alt="SwiftCart logo"
+                style="height:48px; width:auto; background:white; padding:6px; border-radius:8px; box-shadow:0 6px 18px rgba(11,12,30,0.12);">
+            <div style="text-align:left;">
+                <div style="font-weight:700;">SwiftCart</div>
+                <div style="font-size:13px; color:rgba(255,255,255,0.9);">&copy; 2026 SwiftCart. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    {% block extra_js %}{% endblock %}
-</body>
+    {% block extra_js %}
+    {% endblock %}
+    </body>
 
 </html>

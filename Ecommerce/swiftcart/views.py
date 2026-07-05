@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserRegistrationForm
+from .forms import ContactForm, CustomUserRegistrationForm
 from .models import Category, CustomUser, GalleryImage, Product
 
 # Create your views here.
@@ -98,7 +98,7 @@ def user_logout(request):
 
 def product_list(request):
     """Display all active products."""
-    products = Product.objects.filter(is_active=True).order_by('-created_at')
+    products = Product.objects.filter(is_active=True).order_by('created_at')
     context = {
         'products': products,
         'page_title': 'Products'
@@ -135,7 +135,7 @@ def category_detail(request, slug):
     if not category:
         return render(request, 'swiftcart/404.html', {'page_title': 'Category not found'}, status=404)
 
-    products = category.products.filter(is_active=True).order_by('-created_at')
+    products = category.products.filter(is_active=True).order_by('created_at')
     context = {
         'category': category,
         'products': products,
@@ -152,3 +152,28 @@ def gallery(request):
         'page_title': 'Gallery'
     }
     return render(request, 'swiftcart/gallery.html', context)
+
+
+def about_us(request):
+    context = {
+        'page_title': 'About Us',
+    }
+    return render(request, 'swiftcart/about.html', context)
+
+
+@require_http_methods(["GET", "POST"])
+def contact_us(request):
+    """Display and process the contact form."""
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Thank you for reaching out! We will get back to you soon.')
+            return redirect('contact')
+    else:
+        form = ContactForm()
+
+    context = {
+        'form': form,
+        'page_title': 'Contact Us'
+    }
+    return render(request, 'swiftcart/contact.html', context)

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - SwiftCart{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-lg-6">
+            <span class="badge bg-primary rounded-pill mb-3">About SwiftCart</span>
+            <h1 class="display-5 fw-bold text-primary">Delivering better shopping, faster.</h1>
+            <p class="lead text-muted mb-4">
+                SwiftCart brings you a modern online shopping experience with curated products,
+                fast delivery, and a customer-first approach. We build trust by keeping the
+                checkout simple, the service responsive, and the moments delightful.
+            </p>
+            <div class="row gy-3">
+                <div class="col-12 col-md-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Our Mission</h5>
+                            <p class="card-text text-muted">
+                                Make online shopping easy and enjoyable for every customer,
+                                with quality products and friendly support.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Our Vision</h5>
+                            <p class="card-text text-muted">
+                                Become the go-to destination for shoppers looking for
+                                reliability, value, and thoughtful e-commerce design.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 text-center">
+            <img src="{% static 'images/about-hero.png' %}" alt="About SwiftCart" class="img-fluid rounded-4 shadow-sm"
+                style="max-height: 420px; width: auto;">
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Fast Delivery</h5>
+                    <p class="card-text text-muted">Orders processed quickly with careful packaging and timely updates.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Trusted Brands</h5>
+                    <p class="card-text text-muted">We offer products from trusted sellers and verified suppliers.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Customer Support</h5>
+                    <p class="card-text text-muted">Friendly support ready to help with orders, returns, and questions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

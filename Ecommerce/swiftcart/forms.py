@@ -95,3 +95,54 @@ class CustomUserRegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ContactForm(forms.Form):
+    """Simple contact form for customer inquiries."""
+    name = forms.CharField(
+        max_length=255,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Your name',
+        }),
+        label='Name'
+    )
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Your email',
+        }),
+        label='Email'
+    )
+    subject = forms.CharField(
+        max_length=255,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Subject',
+        }),
+        label='Subject'
+    )
+    message = forms.CharField(
+        required=True,
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'placeholder': 'Your message',
+            'rows': 5,
+        }),
+        label='Message'
+    )
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name', '').strip()
+        if len(name) == 0:
+            raise forms.ValidationError('Please enter your name.')
+        return name
+
+    def clean_message(self):
+        message = self.cleaned_data.get('message', '').strip()
+        if len(message) < 10:
+            raise forms.ValidationError('Message should be at least 10 characters long.')
+        return message
