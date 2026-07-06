@@ -1,0 +1,143 @@
+/* ===============================
+   SwiftCart Premium Navbar
+================================= */
+
+.navbar-custom {
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+    padding: 8px 0;
+    min-height: 75px;
+}
+
+.navbar-brand img {
+    height: 52px;
+    width: auto;
+    transition: .3s;
+}
+
+/* Navigation */
+
+.navbar-nav {
+    gap: 28px;
+}
+
+.nav-link {
+    color: #222 !important;
+    font-weight: 600;
+    position: relative;
+    transition: .3s;
+}
+
+.nav-link:hover {
+    color: #0d47a1 !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: #ff7a00;
+    transition: .3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Search */
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    width: 260px;
+    padding: 10px 18px;
+    font-size: 15px;
+}
+
+.search-box button {
+    border: none;
+    background: #0d47a1;
+    color: #fff;
+    padding: 10px 15px;
+}
+
+/* Icons */
+
+.icon-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #222;
+    border-radius: 50%;
+    transition: .3s;
+    margin-left: 8px;
+}
+
+.icon-btn:hover {
+    background: #0d47a1;
+    color: #fff;
+}
+
+/* Login Button */
+
+.login-btn {
+    margin-left: 15px;
+    padding: 9px 20px;
+    border-radius: 30px;
+    background: #0D47A1;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-btn:hover {
+    background: #ff7a00;
+    color: #fff;
+}
+
+/* Responsive */
+
+@media(max-width:992px) {
+
+    .navbar-nav {
+        margin: 20px 0;
+    }
+
+    .search-box {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+
+    .navbar-right {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .navbar-custom .container {
+        max-width: 1400px;
+    }
+
+}

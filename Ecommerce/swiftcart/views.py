@@ -7,16 +7,14 @@ from .forms import ContactForm, CustomUserRegistrationForm
 from .models import Category, CustomUser, GalleryImage, Product
 
 # Create your views here.
-
 def home(request):
-    """
-    Home page view
-    """
-    context = {
-        'page_title': 'Home'
-    }
-    return render(request, 'swiftcart/home.html', context)
+    featured_products = Product.objects.filter(is_active=True).order_by('-created_at')[:8]
 
+    context = {
+        "featured_products": featured_products,
+    }
+
+    return render(request, "swiftcart/home.html", context)
 
 @require_http_methods(["GET", "POST"])
 def register(request):
