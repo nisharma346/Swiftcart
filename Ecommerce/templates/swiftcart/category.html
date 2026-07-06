@@ -12,9 +12,6 @@
     }
 
     .category-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 24px;
         margin-top: 24px;
     }
 
@@ -76,86 +73,20 @@
 
     @media (max-width: 900px) {
         .category-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: 20px;
         }
     }
 
     @media (max-width: 640px) {
         .category-grid {
-            grid-template-columns: 1fr;
+            margin-top: 18px;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-{% load static %}
-<div class="page-header-banner text-center text-white">
-    <div class="banner-bg"></div>
-    <div class="container py-5">
-        <div
-            style="letter-spacing:6px; font-size:12px; text-transform:uppercase; opacity:0.9; font-weight:700; margin-bottom:12px;">
-            {{ page_title|default:'SwiftCart' }}</div>
-        <h1 class="banner-title">{{ page_heading|default:page_title|default:'Our Collection' }}</h1>
-        {% if page_subtitle %}
-        <p class="banner-subtitle mt-3">{{ page_subtitle }}</p>
-        {% endif %}
-    </div>
-</div>
-<style>
-    .page-header-banner {
-        position: relative;
-        overflow: visible;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 0 60px 0
-    }
-
-    .page-header-banner .banner-bg {
-        position: absolute;
-        inset: 0;
-        border-bottom-left-radius: 48px;
-        border-bottom-right-radius: 48px;
-        background: linear-gradient(135deg, #2b0b43 0%, #7a1f7a 40%, #ff3d70 100%);
-        background-image: url('{% static "images/banners/header-hero.svg" %}');
-        background-size: cover;
-        background-position: center;
-        box-shadow: 0 18px 40px rgba(30, 10, 50, 0.15);
-        z-index: 0
-    }
-
-    .page-header-banner .container {
-        position: relative;
-        z-index: 2;
-        max-width: 1100px
-    }
-
-    .banner-title {
-        font-size: 48px;
-        font-weight: 800;
-        margin: 6px 0;
-        color: #fff;
-        text-shadow: 0 12px 30px rgba(0, 0, 0, 0.28)
-    }
-
-    .banner-subtitle {
-        color: rgba(255, 255, 255, 0.94);
-        font-size: 18px;
-        max-width: 900px;
-        margin: 0 auto
-    }
-
-    @media (max-width:768px) {
-        .banner-title {
-            font-size: 28px
-        }
-
-        .page-header-banner {
-            padding: 28px 0 40px
-        }
-    }
-</style>
+{% include 'swiftcart/includes/header_banner.html' with page_title='Categories' page_heading='Categories' %}
 <section class="category-page">
     <div class="text-center mb-4">
         <h1 class="mb-2">Shop by Category</h1>
@@ -163,18 +94,20 @@
     </div>
 
     {% if categories %}
-    <div class="category-grid">
+    <div class="category-grid row gx-4 gy-4">
         {% for category in categories %}
-        <div class="category-card">
-            {% if category.image %}
-            <img src="{{ category.image.url }}" alt="{{ category.name }}">
-            {% else %}
-            <img src="{% static 'images/banners/banner1-swiftcart.jpg' %}" alt="{{ category.name }}">
-            {% endif %}
-            <div class="category-body">
-                <h3 class="category-title">{{ category.name }}</h3>
-                <p class="category-desc">{{ category.description|default:'Explore products in this category.' }}</p>
-                <a href="{% url 'category_detail' slug=category.slug %}" class="btn-view">View Category</a>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="category-card">
+                {% if category.image %}
+                <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                {% else %}
+                <img src="{% static 'images/banners/banner1-swiftcart.jpg' %}" alt="{{ category.name }}">
+                {% endif %}
+                <div class="category-body">
+                    <h3 class="category-title">{{ category.name }}</h3>
+                    <p class="category-desc">{{ category.description|default:'Explore products in this category.' }}</p>
+                    <a href="{% url 'category_detail' slug=category.slug %}" class="btn-view">View Category</a>
+                </div>
             </div>
         </div>
         {% endfor %}

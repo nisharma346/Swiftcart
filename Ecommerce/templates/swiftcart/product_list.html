@@ -6,23 +6,12 @@
 {% block extra_css %}
 <style>
     .product-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 24px;
-        padding: 40px 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    @media (max-width: 992px) {
-        .product-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+        margin-top: 24px;
     }
 
     @media (max-width: 640px) {
         .product-grid {
-            grid-template-columns: 1fr;
+            margin-top: 20px;
         }
     }
 
@@ -32,6 +21,15 @@
         overflow: hidden;
         box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
         transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    /* Ensure bootstrap columns inside the product grid stretch to equal height */
+    .product-grid .row>[class*="col-"] {
+        display: flex;
+        align-items: stretch;
     }
 
     .product-card:hover {
@@ -47,21 +45,22 @@
     }
 
     .product-body {
-        padding: 20px;
+        padding: 24px 22px;
+        margin-top: auto;
     }
 
     .product-title {
-        font-size: 1.18rem;
-        margin-bottom: 0.75rem;
+        font-size: 1.24rem;
+        margin-bottom: 0.5rem;
         color: #111827;
-        font-weight: 700;
+        font-weight: 800;
     }
 
     .product-price {
-        color: #0d3db0;
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-bottom: 0.75rem;
+        color: #b22222;
+        font-size: 1.18rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
     }
 
     .product-stock {
@@ -71,8 +70,8 @@
 
     .product-description {
         color: #475569;
-        font-size: 0.95rem;
-        min-height: 60px;
+        font-size: 0.98rem;
+        min-height: 72px;
         margin-bottom: 18px;
     }
 
@@ -99,27 +98,29 @@
 
 {% block content %}
 {% include 'swiftcart/includes/header_banner.html' with page_title='Products' %}
-<section class="container-section py-5">
+<section class="container py-5">
     <div class="text-center mb-4">
         <h1 class="mb-2">Our Products</h1>
         <p class="text-muted">Browse available items and view product details.</p>
     </div>
 
     {% if products %}
-    <div class="product-grid">
+    <div class="product-grid row gx-4 gy-4">
         {% for product in products %}
-        <div class="product-card">
-            {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            {% else %}
-            <img src="{% static 'images/banners/banner1-swiftcart.jpg' %}" alt="{{ product.name }}">
-            {% endif %}
-            <div class="product-body">
-                <div class="product-title">{{ product.name }}</div>
-                <div class="product-price">₹{{ product.price }}</div>
-                <div class="product-stock">Stock: {{ product.stock }}</div>
-                <div class="product-description">{{ product.description|truncatechars:100 }}</div>
-                <a href="{% url 'product_detail' slug=product.slug %}" class="btn-view">View Details</a>
+        <div class="col-12 col-md-6 col-lg-4 d-flex">
+            <div class="product-card">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <img src="{% static 'images/banners/banner1-swiftcart.jpg' %}" alt="{{ product.name }}">
+                {% endif %}
+                <div class="product-body">
+                    <div class="product-title">{{ product.name }}</div>
+                    <div class="product-price">₹{{ product.price }}</div>
+                    <div class="product-stock">Stock: {{ product.stock }}</div>
+                    <div class="product-description">{{ product.description|truncatechars:100 }}</div>
+                    <a href="{% url 'product_detail' slug=product.slug %}" class="btn-view">View Details</a>
+                </div>
             </div>
         </div>
         {% endfor %}
