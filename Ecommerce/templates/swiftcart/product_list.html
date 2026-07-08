@@ -6,105 +6,139 @@
 {% block extra_css %}
 <style>
     .product-grid {
-        margin-top: 24px;
+        margin-top: 0px;
     }
 
-    @media (max-width: 640px) {
-        .product-grid {
-            margin-top: 20px;
-        }
+    /* Equal Height */
+    .product-grid .row>[class*="col-"] {
+        display: flex;
     }
+
+    /* Product Card */
 
     .product-card {
         background: #fff;
         border-radius: 16px;
         overflow: hidden;
-        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, .08);
+        transition: .3s;
         display: flex;
         flex-direction: column;
+        width: 100%;
         height: 100%;
     }
 
-    /* Ensure bootstrap columns inside the product grid stretch to equal height */
-    .product-grid .row>[class*="col-"] {
-        display: flex;
-        align-items: stretch;
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, .15);
     }
 
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.16);
-    }
+    /* Image */
 
     .product-card img {
         width: 100%;
-        height: 260px;
+        height: 220px;
         object-fit: cover;
-        display: block;
     }
+
+    /* Body */
 
     .product-body {
-        padding: 24px 22px;
-        margin-top: auto;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
+
+    /* Title */
 
     .product-title {
-        font-size: 1.24rem;
-        margin-bottom: 0.5rem;
-        color: #111827;
-        font-weight: 800;
+        font-size: 22px;
+        font-weight: 700;
+        color: #222;
+        line-height: 1.4;
+        min-height: 58px;
+        margin-bottom: 8px;
     }
+
+    /* Price */
 
     .product-price {
-        color: #b22222;
-        font-size: 1.18rem;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
+        color: #0d47a1;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 8px;
     }
+
+    /* Stock */
 
     .product-stock {
-        color: #6b7280;
-        margin-bottom: 16px;
+        font-size: 15px;
+        color: #666;
+        margin-bottom: 12px;
     }
 
+    /* Description */
+
     .product-description {
-        color: #475569;
-        font-size: 0.98rem;
-        min-height: 72px;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+        min-height: 68px;
         margin-bottom: 18px;
     }
 
-    .btn-view {
-        background: var(--primary-gradient);
-        color: #fff;
-        font-weight: 700;
-        padding: 12px 18px;
-        border-radius: 12px;
-        text-decoration: none;
-        transition: all 0.25s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 10px 22px rgba(13, 61, 176, 0.18);
+    /* Button */
+
+    .view-btn {
+        width: 100%;
+        margin-top: auto;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 15px;
+        font-weight: 600;
     }
 
-    .btn-view:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 14px 28px rgba(13, 61, 176, 0.22);
+    /* Responsive */
+
+    @media(max-width:991px) {
+
+        .product-card img {
+            height: 200px;
+        }
+
+        .product-title {
+            font-size: 20px;
+        }
+
+    }
+
+    @media(max-width:768px) {
+
+        .product-card img {
+            height: 220px;
+        }
+
+        .product-title {
+            font-size: 20px;
+        }
+
+        .product-price {
+            font-size: 22px;
+        }
+
     }
 </style>
 {% endblock %}
 
 {% block content %}
 
-<section class="container pb-5">
-
+<section class="container pt-3 pb-5">
 
     {% if products %}
     <div class="product-grid row gx-4 gy-4">
         {% for product in products %}
-        <div class="col-12 col-md-6 col-lg-4 d-flex">
+        <div class="col-12 col-sm-6 col-lg-3 d-flex">
             <div class="product-card">
                 {% if product.image %}
                 <img src="{{ product.image.url }}" alt="{{ product.name }}">
@@ -116,7 +150,9 @@
                     <div class="product-price">₹{{ product.price }}</div>
                     <div class="product-stock">Stock: {{ product.stock }}</div>
                     <div class="product-description">{{ product.description|truncatechars:100 }}</div>
-                    <a href="{% url 'product_detail' slug=product.slug %}" class="btn-view">View Details</a>
+                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-primary view-btn">
+                        View Details
+                    </a>
                 </div>
             </div>
         </div>

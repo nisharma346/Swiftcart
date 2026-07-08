@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ContactForm, CustomUserRegistrationForm
 from .models import Category, CustomUser, GalleryImage, Product
 from django.shortcuts import get_object_or_404
+from .models import Order, OrderItem
 
 # Create your views here.
 def home(request):
@@ -304,3 +305,99 @@ def remove_from_wishlist(request, product_id):
     request.session["wishlist"] = wishlist
 
     return redirect("wishlist")
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url="login")
+def checkout(request):
+
+    cart = request.session.get("cart", {})
+
+    cart_items = []
+
+    grand_total = 0
+
+    for product_id, quantity in cart.items():
+
+        product = Product.objects.filter(id=product_id).first()
+
+        if product:
+
+            total = product.price * quantity
+
+            grand_total += total
+
+            cart_items.append({
+                "product": product,
+                "quantity": quantity,
+                "total": total,
+            })
+
+    context = {
+        "cart_items": cart_items,
+        "grand_total": grand_total,
+        "page_title": "Checkout",
+        "page_heading": "Checkout",
+        "page_subtitle": "Complete your order securely.",
+    }
+
+    return render(request, "swiftcart/checkout.html", context)
+@login_required(login_url="login")
+def place_order(request):
+
+    if request.method == "POST":
+
+        cart = request.session.get("cart", {})
+
+        if not cart:
+            messages.error(request, "Your cart is empty.")
+            return redirect("cart")
+
+        grand_total = 0
+
+        order = Order.objects.create(
+            user=request.user,
+            full_name=request.POST["full_name"],
+            email=request.POST["email"],
+            mobile=request.POST["mobile"],
+            address=request.POST["address"],
+            city=request.POST["city"],
+            state=request.POST["state"],
+            pincode=request.POST["pincode"],
+            total_amount=0
+        )
+
+        for product_id, quantity in cart.items():
+
+            product = Product.objects.get(id=product_id)
+
+            total = product.price * quantity
+
+            grand_total += total
+
+            OrderItem.objects.create(
+                order=order,
+                product=product,
+                quantity=quantity,
+                price=product.price
+            )
+
+        order.total_amount = grand_total
+        order.save()
+
+        request.session["cart"] = {}
+
+        messages.success(request, "Order placed successfully!")
+
+        return redirect("order_success")
+
+    return redirect("checkout")
+@login_required(login_url="login")
+def order_success(request):
+
+    context = {
+        "page_title": "Order Success",
+        "page_heading": "Order Placed Successfully",
+        "page_subtitle": "Thank you for shopping with SwiftCart."
+    }
+
+    return render(request, "swiftcart/order_success.html", context)

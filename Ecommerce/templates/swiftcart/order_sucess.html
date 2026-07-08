@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Success{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_success.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="success-card">
+
+        <div class="success-icon">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+        <h2>
+
+            Your Order Has Been Placed!
+
+        </h2>
+
+        <p>
+
+            Thank you for shopping with SwiftCart.
+
+            Your order has been received successfully.
+
+        </p>
+
+        <div class="mt-4">
+
+            <a href="{% url 'product_list' %}" class="btn btn-primary">
+
+                Continue Shopping
+
+            </a>
+
+            <a href="{% url 'home' %}" class="btn btn-outline-primary ms-2">
+
+                Go Home
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

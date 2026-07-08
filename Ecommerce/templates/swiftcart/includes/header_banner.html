@@ -1,25 +1,9 @@
-{% load static %}
-
 <section class="page-header">
-
     <div class="container">
-
-        <nav class="breadcrumb-nav">
-            <a href="{% url 'home' %}">Home</a>
-
-            {% if page_title %}
-            / <span>{{ page_title }}</span>
-            {% endif %}
-        </nav>
-
         <h1>{{ page_heading|default:page_title }}</h1>
 
         {% if page_subtitle %}
-        <p>
-            {{ page_subtitle }}
-        </p>
+        <p>{{ page_subtitle }}</p>
         {% endif %}
-
     </div>
-
 </section>

@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Category, CustomUser, GalleryImage, Product
+from .models import Order, OrderItem
 
+admin.site.register(Order)
+admin.site.register(OrderItem)
 # Register your models here.
 
 @admin.register(Category)

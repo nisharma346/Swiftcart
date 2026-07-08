@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Checkout | SwiftCart{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row g-4">
+
+        <!-- Billing Details -->
+
+        <div class="col-lg-8">
+
+            <div class="checkout-card">
+
+                <h3 class="mb-4">
+                    Billing Details
+                </h3>
+
+                <form method="POST" action="{% url 'place_order' %}">
+                    {% csrf_token %}
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Full Name</label>
+
+                            <input type="text" name="full_name" class="form-control"
+                                value="{{ request.user.full_name }}" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Email</label>
+
+                            <input type="email" name="email" class="form-control" value="{{ request.user.email }}"
+                                required>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Mobile</label>
+
+                            <input type="text" name="mobile" class="form-control" value="{{ request.user.mobile_no }}"
+                                required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">City</label>
+
+                            <input type="text" name="city" class="form-control" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">State</label>
+
+                            <input type="text" name="state" class="form-control" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Pincode</label>
+
+
+                            <input type="text" name="pincode" class="form-control" required>
+                        </div>
+
+                        <div class="col-12 mb-4">
+
+                            <label class="form-label">
+                                Delivery Address
+                            </label>
+
+                            <textarea name="address" class="form-control" rows="4">{{ request.user.address }}</textarea>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Order Summary -->
+
+        <div class="col-lg-4">
+
+            <div class="summary-card">
+
+                <h3 class="mb-4">
+                    Order Summary
+                </h3>
+
+                {% for item in cart_items %}
+
+                <div class="summary-item">
+
+                    <div>
+
+                        <strong>{{ item.product.name }}</strong>
+
+                        <br>
+
+                        <small>
+                            Qty : {{ item.quantity }}
+                        </small>
+
+                    </div>
+
+                    <strong>
+                        ₹{{ item.total }}
+                    </strong>
+
+                </div>
+
+                {% endfor %}
+
+                <hr>
+
+                <div class="summary-total">
+
+                    <span>Subtotal</span>
+
+                    <strong>
+                        ₹{{ grand_total }}
+                    </strong>
+
+                </div>
+
+                <div class="summary-total">
+
+                    <span>Shipping</span>
+
+                    <strong class="text-success">
+                        FREE
+                    </strong>
+
+                </div>
+
+                <hr>
+
+                <div class="summary-total grand">
+
+                    <span>Total</span>
+
+                    <strong>
+                        ₹{{ grand_total }}
+                    </strong>
+
+                </div>
+
+                <button type="submit" class="btn place-order-btn w-100 mt-4">
+
+                    <i class="fa-solid fa-lock me-2"></i>
+
+                    Place Order
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
