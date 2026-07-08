@@ -1,0 +1,42 @@
+.page-header {
+    background: linear-gradient(135deg, #142850, #274690, #3d5af1);
+    color: #fff;
+
+    height: 320px;
+
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 70px;
+}
+
+.page-header .container {
+    max-width: 1200px;
+}
+
+.breadcrumb-nav {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.breadcrumb-nav a {
+    color: #fff;
+    text-decoration: none;
+    opacity: .9;
+}
+
+.breadcrumb-nav span {
+    color: #ffd54f;
+}
+
+.page-header h1 {
+    font-size: 52px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.page-header p {
+    font-size: 19px;
+    max-width: 650px;
+    opacity: .95;
+}

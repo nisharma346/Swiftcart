@@ -5,16 +5,20 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from .forms import ContactForm, CustomUserRegistrationForm
 from .models import Category, CustomUser, GalleryImage, Product
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def home(request):
     featured_products = Product.objects.filter(is_active=True).order_by('-created_at')[:8]
+    categories = Category.objects.filter(is_active=True)
 
     context = {
         "featured_products": featured_products,
+        "categories": categories,
     }
 
     return render(request, "swiftcart/home.html", context)
+
 
 @require_http_methods(["GET", "POST"])
 def register(request):
@@ -93,29 +97,46 @@ def user_logout(request):
     messages.success(request, 'You have been logged out successfully.')
     return redirect('login')
 
-
 def product_list(request):
-    """Display all active products."""
-    products = Product.objects.filter(is_active=True).order_by('created_at')
+    products = Product.objects.filter(is_active=True)
+
     context = {
-        'products': products,
-        'page_title': 'Products'
+        "products": products,
+        "page_title": "Products",
+        "page_heading": "Our Products",
+        "page_subtitle": "Browse available items and view product details.",
     }
-    return render(request, 'swiftcart/product_list.html', context)
+
+    return render(request, "swiftcart/product_list.html", context)
 
 
 def product_detail(request, slug):
-    """Display details for a single product."""
-    product = Product.objects.filter(slug=slug, is_active=True).first()
+    product = Product.objects.filter(
+        slug=slug,
+        is_active=True
+    ).first()
+
     if not product:
-        return render(request, 'swiftcart/404.html', {'page_title': 'Product not found'}, status=404)
+        return render(
+            request,
+            "swiftcart/404.html",
+            {"page_title": "Product Not Found"},
+            status=404
+        )
+
+    related_products = Product.objects.filter(
+        category=product.category,
+        is_active=True
+    ).exclude(id=product.id)[:4]
 
     context = {
-        'product': product,
-        'page_title': product.name
-    }
-    return render(request, 'swiftcart/product_detail.html', context)
+    "product": product,
+    "related_products": related_products,
+    "page_title": product.name,
+    "page_heading": product.name,
+}
 
+    return render(request, "swiftcart/product_detail.html", context)
 
 def category_list(request):
     """Display all active categories."""
@@ -175,3 +196,111 @@ def contact_us(request):
         'page_title': 'Contact Us'
     }
     return render(request, 'swiftcart/contact.html', context)
+def cart(request):
+
+    cart = request.session.get("cart", {})
+
+    cart_items = []
+
+    grand_total = 0
+
+    for product_id, quantity in cart.items():
+
+        product = Product.objects.filter(id=product_id).first()
+
+        if product:
+
+            total = product.price * quantity
+
+            grand_total += total
+
+            cart_items.append({
+                "product": product,
+                "quantity": quantity,
+                "total": total,
+            })
+
+    context = {
+        "cart_items": cart_items,
+        "grand_total": grand_total,
+        "page_title": "Shopping Cart",
+        "page_heading": "Shopping Cart",
+        "page_subtitle": "Review your selected products before checkout."
+    }
+
+    return render(request, "swiftcart/cart.html", context)
+def add_to_cart(request, product_id):
+
+    product = get_object_or_404(Product, id=product_id)
+
+    cart = request.session.get("cart", {})
+
+    product_id = str(product_id)
+
+    cart[product_id] = cart.get(product_id, 0) + 1
+
+    request.session["cart"] = cart
+    messages.success(request, f"{product.name} added to your cart.")
+
+    return redirect("cart")
+
+
+def remove_from_cart(request, product_id):
+
+    cart = request.session.get("cart", {})
+
+    product_id = str(product_id)
+
+    if product_id in cart:
+        del cart[product_id]
+
+    request.session["cart"] = cart
+
+    return redirect("cart")
+def wishlist(request):
+
+    wishlist = request.session.get("wishlist", {})
+
+    wishlist_items = []
+
+    for product_id in wishlist.keys():
+        product = Product.objects.filter(id=product_id).first()
+        if product:
+            wishlist_items.append(product)
+
+    context = {
+        "wishlist_items": wishlist_items,
+        "page_title": "Wishlist",
+        "page_heading": "My Wishlist",
+        "page_subtitle": "Save your favourite products for later.",
+    }
+
+    return render(request, "swiftcart/wishlist.html", context)
+
+def add_to_wishlist(request, product_id):
+
+    product = get_object_or_404(Product, id=product_id)
+
+    wishlist = request.session.get("wishlist", {})
+
+    wishlist[str(product_id)] = True
+
+    request.session["wishlist"] = wishlist
+
+    messages.success(request, f"{product.name} added to wishlist.")
+
+    return redirect("wishlist")
+
+
+def remove_from_wishlist(request, product_id):
+
+    wishlist = request.session.get("wishlist", {})
+
+    product_id = str(product_id)
+
+    if product_id in wishlist:
+        del wishlist[product_id]
+
+    request.session["wishlist"] = wishlist
+
+    return redirect("wishlist")

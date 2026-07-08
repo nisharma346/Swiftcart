@@ -1,0 +1,114 @@
+/* ================= PAGE HEADER ================= */
+
+.page-header {
+    background: linear-gradient(135deg, #123D91 0%, #1A4FAF 45%, #2D73D8 100%);
+    min-height: 320px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    color: #fff;
+
+    position: relative;
+    overflow: hidden;
+
+    margin-bottom: 60px;
+}
+
+/* Decorative Background */
+
+.page-header::before {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    top: -180px;
+    left: -140px;
+}
+
+.page-header::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    bottom: -140px;
+    right: -120px;
+}
+
+.page-header .container {
+    max-width: 900px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Breadcrumb */
+
+.breadcrumb-nav {
+    margin-bottom: 18px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.breadcrumb-nav a {
+    color: rgba(255, 255, 255, .95);
+    text-decoration: none;
+    transition: .3s;
+}
+
+.breadcrumb-nav a:hover {
+    color: #FFD54F;
+}
+
+.breadcrumb-nav span {
+    color: #FFD54F;
+}
+
+/* Heading */
+
+.page-header h1 {
+    font-size: 58px;
+    font-weight: 800;
+    margin-bottom: 18px;
+    letter-spacing: -.5px;
+}
+
+/* Subtitle */
+
+.page-header p {
+    font-size: 20px;
+    color: rgba(255, 255, 255, .92);
+    margin-bottom: 0;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+}
+
+/* Responsive */
+
+@media (max-width:768px) {
+
+    .page-header {
+        min-height: 240px;
+        padding: 40px 20px;
+    }
+
+    .page-header h1 {
+        font-size: 38px;
+    }
+
+    .page-header p {
+        font-size: 16px;
+    }
+
+    .breadcrumb-nav {
+        font-size: 14px;
+    }
+
+}

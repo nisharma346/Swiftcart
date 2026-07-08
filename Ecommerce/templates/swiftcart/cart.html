@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shopping Cart | SwiftCart{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row">
+
+        <!-- Cart Items -->
+
+        <div class="col-lg-8">
+
+            <div class="cart-card">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in cart_items %}
+
+                        <tr>
+
+                            <td>
+
+                                <div class="product-info">
+
+                                    {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" class="cart-image"
+                                        alt="{{ item.product.name }}">
+                                    {% else %}
+                                    <img src="{% static 'images/no-image.png' %}" class="cart-image" alt="No Image">
+                                    {% endif %}
+
+                                    <div>
+
+                                        <h6>{{ item.product.name }}</h6>
+
+                                        {% if item.product.category %}
+                                        <small>{{ item.product.category.name }}</small>
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>₹{{ item.product.price }}</td>
+
+                            <td>
+
+                                <input type="number" value="{{ item.quantity }}" min="1" class="form-control qty-input">
+
+                            </td>
+
+                            <td>₹{{ item.total }}</td>
+
+                            <td>
+
+                                <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-danger btn-sm">
+
+                                    <i class="fa fa-trash"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="5" class="text-center py-5">
+
+                                <h5>Your cart is empty.</h5>
+
+                                <a href="{% url 'product_list' %}" class="btn btn-primary mt-3">
+
+                                    Continue Shopping
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- Summary -->
+
+        <div class="col-lg-4">
+
+            <div class="summary-card">
+
+                <h4>Cart Summary</h4>
+
+                <hr>
+
+                <div class="d-flex justify-content-between">
+
+                    <span>Subtotal</span>
+
+                    <strong>₹{{ grand_total }}</strong>
+
+                </div>
+
+                <div class="d-flex justify-content-between mt-2">
+
+                    <span>Shipping</span>
+
+                    <strong>Free</strong>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between total">
+
+                    <span>Total</span>
+
+                    <strong>₹{{ grand_total }}</strong>
+
+                </div>
+
+                <a href="#" class="btn btn-primary w-100 mt-4">
+
+                    Proceed to Checkout
+
+                </a>
+
+                <a href="{% url 'product_list' %}" class="btn btn-outline-secondary w-100 mt-2">
+
+                    Continue Shopping
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

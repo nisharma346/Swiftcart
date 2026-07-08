@@ -83,57 +83,41 @@
 
         </div>
 
+
+
         <div class="row g-4">
 
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <img src="{% static 'images/categories/electronics.jpg' %}">
-
-                    <h5>Electronics</h5>
-
-                </div>
-
-            </div>
+            {% for category in categories %}
 
             <div class="col-lg-3 col-md-6">
 
-                <div class="category-card">
+                <a href="{% url 'category_detail' category.slug %}" class="text-decoration-none">
 
-                    <img src="{% static 'images/categories/fashion.jpg' %}">
+                    <div class="category-card">
 
-                    <h5>Fashion</h5>
+                        {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                        {% else %}
+                        <img src="{% static 'images/no-image.png' %}" alt="No Image">
+                        {% endif %}
 
-                </div>
+                        <h5>{{ category.name }}</h5>
 
+                    </div>
+
+                </a>
             </div>
 
-            <div class="col-lg-3 col-md-6">
+            {% empty %}
 
-                <div class="category-card">
-
-                    <img src="{% static 'images/categories/home.jpg' %}">
-
-                    <h5>Home & Living</h5>
-
-                </div>
-
+            <div class="col-12 text-center">
+                <h4>No Categories Found</h4>
             </div>
 
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <img src="{% static 'images/categories/beauty.jpg' %}">
-
-                    <h5>Beauty</h5>
-
-                </div>
-
-            </div>
+            {% endfor %}
 
         </div>
+
 
     </div>
 
@@ -146,139 +130,59 @@
     <div class="container">
 
         <div class="section-title">
-
             <h2>Featured Products</h2>
-
             <p>Handpicked products for you</p>
-
         </div>
 
-        <div class="row">
+        <div class="row g-4 mt-4">
 
-            <!-- Part 2 se yaha Product Cards start honge -->
-            <div class="row g-4 mt-4">
+            {% for product in featured_products %}
 
-                <!-- Product 1 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{% static 'images/products/product1.jpg' %}" alt="Wireless Headphones">
-                            <span class="product-badge">NEW</span>
-                        </div>
+            <div class="col-lg-3 col-md-6">
 
-                        <div class="product-info">
-                            <h5>Wireless Headphones</h5>
+                <div class="product-card">
 
-                            <div class="product-price">
-                                <span class="new-price">₹2,499</span>
-                                <span class="old-price">₹3,999</span>
-                            </div>
+                    <div class="product-image">
 
-                            <a href="#" class="btn btn-primary w-100 mt-3">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <img src="{% static 'images/no-image.png' %}" alt="No Image">
+                        {% endif %}
 
-                <!-- Product 2 -->
-                <div class="row g-4 mt-4">
-
-                    {% for product in featured_products %}
-
-                    <div class="col-lg-3 col-md-6">
-
-                        <div class="product-card">
-
-                            <div class="product-image">
-
-                                {% if product.image %}
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                {% else %}
-                                <img src="{% static 'images/no-image.png' %}" alt="No Image">
-                                {% endif %}
-
-                                <span class="product-badge">New</span>
-
-                            </div>
-
-                            <div class="product-info">
-
-                                <h5>{{ product.name }}</h5>
-
-                                <div class="product-price">
-                                    <span class="new-price">₹{{ product.price }}</span>
-                                </div>
-
-                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-primary w-100 mt-3">
-                                    View Product
-                                </a>
-
-                            </div>
-
-                        </div>
+                        <span class="product-badge">New</span>
 
                     </div>
 
-                    {% empty %}
+                    <div class="product-info">
 
-                    <div class="col-12 text-center">
-                        <h4>No Products Available</h4>
+                        <h5>{{ product.name }}</h5>
+
+                        <div class="product-price">
+                            <span class="new-price">₹{{ product.price }}</span>
+                        </div>
+
+                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-primary w-100 mt-3">
+                            View Product
+                        </a>
+
                     </div>
 
-                    {% endfor %}
-
-                </div>
-
-                <!-- Product 3 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{% static 'images/products/product3.jpg' %}" alt="Running Shoes">
-                            <span class="product-badge">SALE</span>
-                        </div>
-
-                        <div class="product-info">
-                            <h5>Running Shoes</h5>
-
-                            <div class="product-price">
-                                <span class="new-price">₹1,999</span>
-                                <span class="old-price">₹2,799</span>
-                            </div>
-
-                            <a href="#" class="btn btn-primary w-100 mt-3">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{% static 'images/products/product4.jpg' %}" alt="Backpack">
-                            <span class="product-badge">BEST</span>
-                        </div>
-
-                        <div class="product-info">
-                            <h5>Travel Backpack</h5>
-
-                            <div class="product-price">
-                                <span class="new-price">₹1,499</span>
-                                <span class="old-price">₹2,299</span>
-                            </div>
-
-                            <a href="#" class="btn btn-primary w-100 mt-3">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
                 </div>
 
             </div>
 
+            {% empty %}
+
+            <div class="col-12 text-center">
+                <h4>No Products Available</h4>
+            </div>
+
+            {% endfor %}
+
         </div>
+
+    </div>
 
 </section>
 
@@ -363,180 +267,9 @@
     </div>
 
 </section>
-<!-- ================= FEATURED PRODUCTS ================= -->
 
-<section class="featured-products py-5">
 
-    <div class="container">
 
-        <div class="section-title text-center mb-5">
-            <h2>Featured Products</h2>
-            <p>Handpicked products for you</p>
-        </div>
-
-        <div class="row g-4">
-
-            {% for product in featured_products %}
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="product-card">
-
-                    <div class="product-image">
-
-                        {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                        {% else %}
-                        <img src="{% static 'images/no-image.png' %}" alt="No Image">
-                        {% endif %}
-
-                    </div>
-
-                    <div class="product-info">
-
-                        <h5>{{ product.name }}</h5>
-
-                        <div class="product-price">
-
-                            <span class="new-price">
-                                ₹{{ product.price }}
-                            </span>
-
-                        </div>
-
-                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-primary w-100 mt-3">
-                            View Product
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            {% empty %}
-
-            <div class="col-12 text-center">
-
-                <h4>No Products Available</h4>
-
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-    </div>
-
-</section>
-<!-- ================= FLASH SALE ================= -->
-
-<section class="flash-sale">
-
-    <div class="container">
-
-        <div class="flash-content">
-
-            <div>
-
-                <h2>⚡ Flash Sale</h2>
-
-                <p>
-                    Up to 60% OFF on selected products.
-                    Limited Time Offer.
-                </p>
-
-            </div>
-
-            <a href="{% url 'product_list' %}" class="btn btn-light btn-lg">
-
-                Shop Now
-
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= WHY CHOOSE SWIFTCART ================= -->
-
-<section class="why-section py-5">
-
-    <div class="container">
-
-        <div class="section-title text-center mb-5">
-
-            <h2>Why Choose SwiftCart?</h2>
-
-            <p>Shopping made easy, secure and fast.</p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">🚚</div>
-
-                    <h5>Fast Delivery</h5>
-
-                    <p>Free delivery on eligible orders.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">💳</div>
-
-                    <h5>Secure Payment</h5>
-
-                    <p>100% Secure Payment Gateway.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">🔄</div>
-
-                    <h5>Easy Returns</h5>
-
-                    <p>Simple return policy.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">🎧</div>
-
-                    <h5>24×7 Support</h5>
-
-                    <p>Always ready to help.</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
 <!-- ================= NEWSLETTER ================= -->
 
 <section class="newsletter">
