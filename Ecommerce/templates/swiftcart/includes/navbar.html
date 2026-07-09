@@ -56,15 +56,25 @@
                 </form>
 
                 <!-- Wishlist -->
-                <a href="{% url 'wishlist' %}">
+                <a href="{% url 'wishlist' %}" class="nav-icon">
+
                     <i class="fa-regular fa-heart"></i>
-                </a>
 
+                    <span class="count-badge" id="wishlist-count">
+                        {{ wishlist_count }}
+                    </span>
+
+                </a>
                 <!-- Cart -->
-                <a href="#" class="icon-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
+                <a href="{% url 'cart' %}" class="nav-icon">
 
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                    <span class="count-badge" id="cart-count">
+                        {{ cart_count }}
+                    </span>
+
+                </a>
                 {% if user.is_authenticated %}
 
                 <a href="#" class="login-btn">

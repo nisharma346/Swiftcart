@@ -7,6 +7,7 @@ from .forms import ContactForm, CustomUserRegistrationForm
 from .models import Category, CustomUser, GalleryImage, Product
 from django.shortcuts import get_object_or_404
 from .models import Order, OrderItem
+from django.http import JsonResponse
 
 # Create your views here.
 def home(request):
@@ -269,7 +270,9 @@ def wishlist(request):
         if product:
             wishlist_items.append(product)
 
-    context = {
+    context ={
+       "products": product_list,
+        "wishlist": wishlist,
         "wishlist_items": wishlist_items,
         "page_title": "Wishlist",
         "page_heading": "My Wishlist",
@@ -401,3 +404,35 @@ def order_success(request):
     }
 
     return render(request, "swiftcart/order_success.html", context)
+def toggle_wishlist(request, product_id):
+
+    wishlist = request.session.get("wishlist", {})
+
+    product_id = str(product_id)
+
+    if product_id in wishlist:
+        del wishlist[product_id]
+        status = "removed"
+    else:
+        wishlist[product_id] = True
+        status = "added"
+
+    request.session["wishlist"] = wishlist
+
+    return JsonResponse({
+        "status": status,
+        "count": len(wishlist)
+    })
+def ajax_add_to_cart(request, product_id):
+
+    cart = request.session.get("cart", {})
+
+    product_id = str(product_id)
+
+    cart[product_id] = cart.get(product_id, 0) + 1
+
+    request.session["cart"] = cart
+
+    return JsonResponse({
+        "count": sum(cart.values())
+    })

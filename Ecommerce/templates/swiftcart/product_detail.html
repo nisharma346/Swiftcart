@@ -79,9 +79,12 @@
                 </div>
                 <div class="buttons mt-3">
 
-                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-cart">
+                    <a href="#" class="btn btn-cart add-cart-btn" data-id="{{ product.id }}">
+
                         <i class="fa-solid fa-cart-shopping me-2"></i>
+
                         Add to Cart
+
                     </a>
 
                     <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-wishlist">

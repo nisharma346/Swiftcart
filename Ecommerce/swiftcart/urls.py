@@ -37,4 +37,14 @@ path(
     views.order_success,
     name="order_success"
 ),
+path(
+    "wishlist/toggle/<int:product_id>/",
+    views.toggle_wishlist,
+    name="toggle_wishlist"
+),
+path(
+    "cart/ajax-add/<int:product_id>/",
+    views.ajax_add_to_cart,
+    name="ajax_add_to_cart"
+),
 ]

@@ -86,12 +86,9 @@
 {% endblock %}
 
 {% block content %}
-{% include 'swiftcart/includes/header_banner.html' with page_title='Categories' page_heading='Categories' %}
+{% include 'swiftcart/includes/header_banner.html' with page_title='Shop by Category' page_heading='Shop by Category'
+page_subtitle='Browse products by category and discover what fits your needs.' %}
 <section class="category-page">
-    <div class="text-center mb-4">
-        <h1 class="mb-2">Shop by Category</h1>
-        <p class="text-muted">Browse products by category and discover what fits your needs.</p>
-    </div>
 
     {% if categories %}
     <div class="category-grid row gx-4 gy-4">
