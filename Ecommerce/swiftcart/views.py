@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from .forms import ContactForm, CustomUserRegistrationForm
-from .models import Category, CustomUser, GalleryImage, Product
+from .models import Category, CustomUser, GalleryImage, Product, Contact
 from django.shortcuts import get_object_or_404
 from .models import Order, OrderItem
 from django.http import JsonResponse
@@ -177,27 +177,37 @@ def gallery(request):
 
 def about_us(request):
     context = {
-        'page_title': 'About Us',
+        "page_title": "About Us",
+        "page_heading": "About Us",
+        "page_subtitle": "Learn more about SwiftCart and our commitment to quality, trust, and customer satisfaction.",
     }
-    return render(request, 'swiftcart/about.html', context)
+    return render(request, "swiftcart/about.html", context)
 
 
 @require_http_methods(["GET", "POST"])
 def contact_us(request):
-    """Display and process the contact form."""
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ContactForm(request.POST)
+
         if form.is_valid():
-            messages.success(request, 'Thank you for reaching out! We will get back to you soon.')
-            return redirect('contact')
+            # Save or process form here if needed
+            messages.success(
+                request,
+                "Thank you! Your message has been sent successfully."
+            )
+            return redirect("contact")
+
     else:
         form = ContactForm()
 
     context = {
-        'form': form,
-        'page_title': 'Contact Us'
+        "form": form,
+        "page_title": "Contact Us",
+        "page_heading": "Contact Us",
+        "page_subtitle": "Have a question or need assistance? We'd love to hear from you.",
     }
-    return render(request, 'swiftcart/contact.html', context)
+
+    return render(request, "swiftcart/contact.html", context)
 def cart(request):
 
     cart = request.session.get("cart", {})

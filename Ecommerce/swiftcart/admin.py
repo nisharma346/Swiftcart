@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Category, CustomUser, GalleryImage, Product
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Contact
 
+admin.site.register(Contact)
 admin.site.register(Order)
 admin.site.register(OrderItem)
 # Register your models here.

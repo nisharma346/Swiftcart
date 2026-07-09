@@ -1,106 +1,176 @@
 {% extends 'base.html' %}
-
-{% block title %}{{ page_title }}{% endblock %}
-
-{% block content %}
 {% load static %}
-<div class="page-header-banner text-center text-white">
-    <div class="banner-bg"></div>
-    <div class="container py-5">
-        <div
-            style="letter-spacing:6px; font-size:12px; text-transform:uppercase; opacity:0.9; font-weight:700; margin-bottom:12px;">
-            {{ page_title|default:'SwiftCart' }}</div>
-        <h1 class="banner-title">{{ page_heading|default:page_title|default:'Our Collection' }}</h1>
-        {% if page_subtitle %}
-        <p class="banner-subtitle mt-3">{{ page_subtitle }}</p>
-        {% endif %}
-    </div>
-</div>
+
+{% block title %}Gallery | SwiftCart{% endblock %}
+
+{% block extra_css %}
 <style>
-    .page-header-banner {
-        position: relative;
-        overflow: visible;
+    .gallery-page {
+        max-width: 1200px;
+        margin: 20px auto 50px;
+        padding: 0 15px;
+    }
+
+    .gallery-grid {
+        margin-top: 10px;
+    }
+
+    .gallery-card {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+        transition: .3s;
+        height: 100%;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 0 60px 0
+        flex-direction: column;
     }
 
-    .page-header-banner .banner-bg {
-        position: absolute;
-        inset: 0;
-        border-bottom-left-radius: 48px;
-        border-bottom-right-radius: 48px;
-        background: linear-gradient(135deg, #2b0b43 0%, #7a1f7a 40%, #ff3d70 100%);
-        background-image: url('{% static "images/banners/header-hero.svg" %}');
-        background-size: cover;
-        background-position: center;
-        box-shadow: 0 18px 40px rgba(30, 10, 50, 0.15);
-        z-index: 0
+    .gallery-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, .15);
     }
 
-    .page-header-banner .container {
-        position: relative;
-        z-index: 2;
-        max-width: 1100px
+    .gallery-image {
+        overflow: hidden;
     }
 
-    .banner-title {
-        font-size: 48px;
-        font-weight: 800;
-        margin: 6px 0;
-        color: #fff;
-        text-shadow: 0 12px 30px rgba(0, 0, 0, 0.28)
+    .gallery-image img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        transition: .4s;
     }
 
-    .banner-subtitle {
-        color: rgba(255, 255, 255, 0.94);
-        font-size: 18px;
-        max-width: 900px;
-        margin: 0 auto
+    .gallery-card:hover img {
+        transform: scale(1.08);
     }
 
-    @media (max-width:768px) {
-        .banner-title {
-            font-size: 28px
+    .gallery-body {
+        padding: 18px;
+        flex: 1;
+    }
+
+    .gallery-title {
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #222;
+    }
+
+    .gallery-caption {
+        color: #666;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+
+    .gallery-grid .col-lg-4 {
+        display: flex;
+    }
+
+    .gallery-grid .gallery-card {
+        width: 100%;
+    }
+
+    @media(max-width:992px) {
+
+        .gallery-image img {
+            height: 220px;
         }
 
-        .page-header-banner {
-            padding: 28px 0 40px
+        .gallery-title {
+            font-size: 19px;
         }
+
+    }
+
+    @media(max-width:768px) {
+
+        .gallery-page {
+            margin-top: 15px;
+        }
+
+        .gallery-image img {
+            height: 190px;
+        }
+
+        .gallery-title {
+            font-size: 18px;
+        }
+
+        .gallery-caption {
+            font-size: 14px;
+        }
+
     }
 </style>
-<div class="container py-5">
-    <div class="row mb-4">
-        <div class="col-12 text-center">
-            <h2 class="fw-bold text-primary">Gallery</h2>
-            <p class="text-muted">Browse our latest featured images.</p>
-        </div>
-    </div>
+{% endblock %}
+
+{% block content %}
+
+<section class="gallery-page">
 
     {% if images %}
-    <div class="row g-4">
+
+    <div class="gallery-grid row g-4">
+
         {% for image in images %}
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-0">
-                {% if image.image %}
-                <img src="{{ image.image.url }}" class="card-img-top" alt="{{ image.title|default:'Gallery image' }}"
-                    style="height: 250px; object-fit: cover;">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ image.title|default:'Gallery Image' }}</h5>
-                    {% if image.caption %}
-                    <p class="card-text text-muted">{{ image.caption }}</p>
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="gallery-card">
+
+                <div class="gallery-image">
+
+                    {% if image.image %}
+                    <img src="{{ image.image.url }}" alt="{{ image.title }}">
+                    {% else %}
+                    <img src="{% static 'images/no-image.png' %}" alt="No Image">
                     {% endif %}
+
                 </div>
+
+                <div class="gallery-body">
+
+                    <h5 class="gallery-title">
+                        {{ image.title|default:"Gallery Image" }}
+                    </h5>
+
+                    {% if image.caption %}
+                    <p class="gallery-caption">
+                        {{ image.caption }}
+                    </p>
+                    {% endif %}
+
+                </div>
+
             </div>
+
         </div>
+
         {% endfor %}
+
     </div>
+
     {% else %}
-    <div class="alert alert-info text-center" role="alert">
-        No gallery images available yet.
+
+    <div class="text-center py-5">
+
+        <img src="{% static 'images/no-image.png' %}" width="150">
+
+        <h3 class="mt-4">
+            No Gallery Images Available
+        </h3>
+
+        <p class="text-muted">
+            Images uploaded from the admin panel will appear here.
+        </p>
+
     </div>
+
     {% endif %}
-</div>
+
+</section>
+
 {% endblock %}

@@ -1,133 +1,77 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Contact Us - SwiftCart{% endblock %}
+{% block title %}Contact Us | SwiftCart{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
 
 {% block content %}
-{% load static %}
-<div class="page-header-banner text-center text-white">
-    <div class="banner-bg"></div>
-    <div class="container py-5">
-        <div
-            style="letter-spacing:6px; font-size:12px; text-transform:uppercase; opacity:0.9; font-weight:700; margin-bottom:12px;">
-            {{ page_title|default:'SwiftCart' }}</div>
-        <h1 class="banner-title">{{ page_heading|default:page_title|default:'Our Collection' }}</h1>
-        {% if page_subtitle %}
-        <p class="banner-subtitle mt-3">{{ page_subtitle }}</p>
-        {% endif %}
-    </div>
-</div>
-<style>
-    .page-header-banner {
-        position: relative;
-        overflow: visible;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 0 60px 0
-    }
 
-    .page-header-banner .banner-bg {
-        position: absolute;
-        inset: 0;
-        border-bottom-left-radius: 48px;
-        border-bottom-right-radius: 48px;
-        background: linear-gradient(135deg, #2b0b43 0%, #7a1f7a 40%, #ff3d70 100%);
-        background-image: url('{% static "images/banners/header-hero.svg" %}');
-        background-size: cover;
-        background-position: center;
-        box-shadow: 0 18px 40px rgba(30, 10, 50, 0.15);
-        z-index: 0
-    }
 
-    .page-header-banner .container {
-        position: relative;
-        z-index: 2;
-        max-width: 1100px
-    }
+<section class="contact-section">
 
-    .banner-title {
-        font-size: 48px;
-        font-weight: 800;
-        margin: 6px 0;
-        color: #fff;
-        text-shadow: 0 12px 30px rgba(0, 0, 0, 0.28)
-    }
+    <div class="container">
 
-    .banner-subtitle {
-        color: rgba(255, 255, 255, 0.94);
-        font-size: 18px;
-        max-width: 900px;
-        margin: 0 auto
-    }
+        <div class="row justify-content-center">
 
-    @media (max-width:768px) {
-        .banner-title {
-            font-size: 28px
-        }
+            <div class="col-lg-8">
 
-        .page-header-banner {
-            padding: 28px 0 40px
-        }
-    }
-</style>
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="text-center mb-5">
-                <h1 class="fw-bold text-primary">Contact Us</h1>
-                <p class="text-muted">Have a question? Send us a message and we will respond as soon as possible.</p>
-            </div>
+                <div class="contact-card">
 
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    {% if messages %}
-                    <div class="mb-4">
-                        {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}" role="alert">
-                            {{ message }}
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
+                    <form method="POST">
 
-                    <form method="post" novalidate>
                         {% csrf_token %}
+
                         <div class="mb-3">
+
                             {{ form.name.label_tag }}
+
                             {{ form.name }}
-                            {% if form.name.errors %}
-                            <div class="text-danger small">{{ form.name.errors.as_text|striptags }}</div>
-                            {% endif %}
+
                         </div>
+
                         <div class="mb-3">
+
                             {{ form.email.label_tag }}
+
                             {{ form.email }}
-                            {% if form.email.errors %}
-                            <div class="text-danger small">{{ form.email.errors.as_text|striptags }}</div>
-                            {% endif %}
+
                         </div>
+
                         <div class="mb-3">
+
                             {{ form.subject.label_tag }}
+
                             {{ form.subject }}
-                            {% if form.subject.errors %}
-                            <div class="text-danger small">{{ form.subject.errors.as_text|striptags }}</div>
-                            {% endif %}
+
                         </div>
+
                         <div class="mb-3">
+
                             {{ form.message.label_tag }}
+
                             {{ form.message }}
-                            {% if form.message.errors %}
-                            <div class="text-danger small">{{ form.message.errors.as_text|striptags }}</div>
-                            {% endif %}
+
                         </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-brand btn-lg">Send Message</button>
-                        </div>
+
+                        <button class="btn btn-primary w-100">
+
+                            Send Message
+
+                        </button>
+
                     </form>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
-</div>
+
+</section>
+
 {% endblock %}
