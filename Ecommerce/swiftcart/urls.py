@@ -30,7 +30,11 @@ path(
     views.remove_from_wishlist,
     name="remove_from_wishlist"
 ),
-path("checkout/", views.checkout, name="checkout"),
+path(
+    'checkout/',
+    views.checkout,
+    name='checkout'
+),
 path("place-order/", views.place_order, name="place_order"),
 path(
     "order-success/",

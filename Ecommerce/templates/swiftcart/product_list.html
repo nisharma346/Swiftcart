@@ -160,6 +160,56 @@
         }
 
     }
+
+    .price-section {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        margin-top: 10px;
+
+        flex-wrap: wrap;
+
+    }
+
+    .old-price {
+
+        text-decoration: line-through;
+
+        color: #888;
+
+        font-size: 15px;
+
+    }
+
+    .new-price {
+
+        font-size: 24px;
+
+        font-weight: 700;
+
+        color: #0d6efd;
+
+    }
+
+    .discount-badge {
+
+        background: #ff3b30;
+
+        color: white;
+
+        padding: 4px 10px;
+
+        border-radius: 20px;
+
+        font-size: 12px;
+
+        font-weight: bold;
+
+    }
 </style>
 {% endblock %}
 
@@ -192,8 +242,27 @@
                 {% endif %}
                 <div class="product-body">
                     <div class="product-title">{{ product.name }}</div>
-                    <div class="product-price">₹{{ product.price }}</div>
+
                     <div class="product-stock">Stock: {{ product.stock }}</div>
+                    <div class="price-section">
+
+                        {% if product.original_price %}
+                        <span class="old-price">
+                            ₹{{ product.original_price }}
+                        </span>
+                        {% endif %}
+
+                        <span class="new-price">
+                            ₹{{ product.price }}
+                        </span>
+
+                        {% if product.discount_percentage %}
+                        <span class="discount-badge">
+                            {{ product.discount_percentage }}% OFF
+                        </span>
+                        {% endif %}
+
+                    </div>
                     <div class="product-description">{{ product.description|truncatechars:100 }}</div>
                     <a href="{% url 'product_detail' product.slug %}" class="btn btn-primary view-btn">
                         View Details

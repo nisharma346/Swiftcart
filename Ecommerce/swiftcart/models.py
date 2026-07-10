@@ -146,39 +146,75 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    """Product catalog model for the ecommerce store."""
-
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True)
+
     description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+
+    original_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=True,
+        null=True
+    )
+
     stock = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='products/', blank=True, null=True)
+
+    image = models.ImageField(
+        upload_to="products/",
+        blank=True,
+        null=True
+    )
+
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
-        related_name='products',
+        related_name="products",
         blank=True,
-        null=True,
+        null=True
     )
+
+    rating = models.DecimalField(
+        max_digits=2,
+        decimal_places=1,
+        default=4.5
+    )
+
+    review_count = models.PositiveIntegerField(default=0)
+
+    is_featured = models.BooleanField(default=False)
+
+    is_best_seller = models.BooleanField(default=False)
+
     is_active = models.BooleanField(default=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
+
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ('-created_at',)
-        verbose_name = 'Product'
-        verbose_name_plural = 'Products'
+        ordering = ("-created_at",)
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    @property
+    def discount_percentage(self):
+        if self.original_price and self.original_price > self.price:
+            return round(
+                ((self.original_price - self.price) / self.original_price) * 100
+            )
+        return 0
+
     def __str__(self):
         return self.name
-
-
 class GalleryImage(models.Model):
     """Gallery image model for showcasing images on the site."""
 
@@ -262,3 +298,5 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+    max_digits=10,
+

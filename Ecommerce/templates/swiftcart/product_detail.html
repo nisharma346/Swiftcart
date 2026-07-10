@@ -48,10 +48,25 @@
                     <span>(4.8)</span>
                 </div>
 
-                <h2 class="price">
-                    ₹{{ product.price }}
-                </h2>
+                <div class="price-section">
 
+                    {% if product.original_price %}
+
+                    <span class="old-price">
+                        ₹{{ product.original_price }}
+                    </span>
+
+                    {% endif %}
+
+                    <span class="new-price">
+                        ₹{{ product.price }}
+                    </span>
+
+                    <span class="discount-badge">
+                        {{ product.discount_percentage }}% OFF
+                    </span>
+
+                </div>
                 {% if product.stock > 0 %}
                 <div class="stock in-stock">
                     <i class="fa-solid fa-circle-check"></i>
@@ -92,10 +107,9 @@
                         Wishlist
                     </a>
 
-                    <a href="#" class="btn btn-buy">
+                    <a href="{% url 'checkout' %}" class="btn btn-buy">
                         Buy Now
                     </a>
-
                 </div>
 
             </div>

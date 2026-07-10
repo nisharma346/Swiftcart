@@ -18,11 +18,27 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price', 'stock', 'is_active', 'created_at')
-    list_filter = ('is_active', 'created_at', 'category')
-    search_fields = ('name', 'description', 'slug')
-    prepopulated_fields = {'slug': ('name',)}
 
+    list_display = (
+        "name",
+        "price",
+        "original_price",
+        "discount_percentage",
+        "rating",
+        "stock",
+        "is_featured",
+        "is_best_seller",
+    )
+
+    list_filter = (
+        "category",
+        "is_featured",
+        "is_best_seller",
+    )
+
+    prepopulated_fields = {
+        "slug": ("name",)
+    }
 
 @admin.register(GalleryImage)
 class GalleryImageAdmin(admin.ModelAdmin):
@@ -91,3 +107,4 @@ class CustomUserAdmin(BaseUserAdmin):
             ),
         }),
     )
+    
