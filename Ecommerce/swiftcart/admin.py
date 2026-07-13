@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Category, CustomUser, GalleryImage, Product
 from .models import Order, OrderItem, Contact
+from .models import Announcement
 
 admin.site.register(Contact)
 admin.site.register(Order)
@@ -107,4 +108,7 @@ class CustomUserAdmin(BaseUserAdmin):
             ),
         }),
     )
-    
+@admin.register(Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('message', 'is_active', 'created_at')
+    list_filter = ('is_active',)   

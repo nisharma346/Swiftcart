@@ -142,7 +142,8 @@ def product_detail(request, slug):
 
 def category_list(request):
     """Display all active categories."""
-    categories = Category.objects.filter(is_active=True).order_by('name')
+    categories = Category.objects.filter(is_active=True)[:6]
+
     context = {
         'categories': categories,
         'page_title': 'Categories'

@@ -25,6 +25,18 @@
 </head>
 
 <body>
+    {% if announcement %}
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            {% for i in "123456"|make_list %}
+            <span>
+                🚚 {{ announcement.message }}
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
 
     <!-- ================= NAVBAR ================= -->
     {% include 'swiftcart/includes/navbar.html' %}

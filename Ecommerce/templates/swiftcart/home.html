@@ -69,55 +69,38 @@
 
 <!-- ================= SHOP BY CATEGORY ================= -->
 
-<section class="shop-category">
+<section class="featured-categories py-5">
 
     <div class="container">
 
-        <div class="section-title">
+        <div class="section-heading">
 
-            <h2>Shop By Category</h2>
+            <h2>Shop by Category</h2>
 
-            <p>
-                Browse products from our most popular collections.
-            </p>
+            <p>Explore our most popular categories</p>
 
         </div>
 
-
-
-        <div class="row g-4">
+        <div class="row">
 
             {% for category in categories %}
 
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+                <a href="{% url 'category_detail' category.slug %}" class="category-box">
 
-                <a href="{% url 'category_detail' category.slug %}" class="text-decoration-none">
+                    {% if category.image %}
+                    <img src="{{ category.image.url }}">
+                    {% endif %}
 
-                    <div class="category-card">
-
-                        {% if category.image %}
-                        <img src="{{ category.image.url }}" alt="{{ category.name }}">
-                        {% else %}
-                        <img src="{% static 'images/no-image.png' %}" alt="No Image">
-                        {% endif %}
-
-                        <h5>{{ category.name }}</h5>
-
-                    </div>
+                    <h6>{{ category.name }}</h6>
 
                 </a>
-            </div>
 
-            {% empty %}
-
-            <div class="col-12 text-center">
-                <h4>No Categories Found</h4>
             </div>
 
             {% endfor %}
 
         </div>
-
 
     </div>
 
