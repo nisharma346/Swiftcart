@@ -1,0 +1,208 @@
+{% load static %}
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="row">
+
+            <!-- LEFT -->
+
+            <div class="col-lg-4">
+
+                <img src="{% static 'images/swiftcart-logo.png' %}" class="footer-logo" alt="SwiftCart">
+
+                <p class="footer-text">
+
+                    Smart Shopping. Fast Delivery.
+                    Your trusted online destination
+                    for quality products,
+                    secure payments and
+                    lightning-fast delivery.
+
+                </p>
+
+                <div class="social-icons">
+
+                    <a href="#">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- QUICK LINKS -->
+
+            <div class="col-lg-2">
+
+                <h4>Quick Links</h4>
+
+                <ul>
+
+                    <li>
+                        <a href="{% url 'home' %}">
+                            <i class="fas fa-angle-right"></i>
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'product_list' %}">
+                            <i class="fas fa-angle-right"></i>
+                            Shop
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'category' %}">
+                            <i class="fas fa-angle-right"></i>
+                            Categories
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'about' %}">
+                            <i class="fas fa-angle-right"></i>
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'contact' %}">
+                            <i class="fas fa-angle-right"></i>
+                            Contact
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- SUPPORT -->
+
+            <div class="col-lg-3">
+
+                <h4>Customer Support</h4>
+
+                <ul>
+
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-angle-right"></i>
+                            FAQ
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-angle-right"></i>
+                            Shipping Policy
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-angle-right"></i>
+                            Return Policy
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-angle-right"></i>
+                            Privacy Policy
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-angle-right"></i>
+                            Terms & Conditions
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- CONTACT -->
+
+            <div class="col-lg-3">
+
+                <h4>Contact Us</h4>
+
+                <div class="contact-info">
+
+                    <p>
+
+                        <i class="fas fa-map-marker-alt"></i>
+
+                        Patna, Bihar, India
+
+                    </p>
+
+                    <p>
+
+                        <i class="fas fa-phone-alt"></i>
+
+                        +91 98765 43210
+
+                    </p>
+
+                    <p>
+
+                        <i class="fas fa-envelope"></i>
+
+                        support@swiftcart.com
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="footer-bottom">
+
+            <div class="copyright">
+
+                © 2026 <span>SwiftCart.</span>
+                All Rights Reserved.
+
+            </div>
+
+            <div class="payment-icons">
+
+                <img src="{% static 'images/visa.png' %}" alt="Visa">
+
+                <img src="{% static 'images/mastercard.png' %}" alt="Mastercard">
+
+                <img src="{% static 'images/gpay.png' %}" alt="GPay">
+
+                <img src="{% static 'images/paypal.png' %}" alt="Paypal">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
