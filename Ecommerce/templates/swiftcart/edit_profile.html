@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile | SwiftCart{% endblock %}
+
+{% block content %}
+
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="card shadow border-0 rounded-4">
+
+                    <div class="card-body p-5">
+
+                        <form method="POST" enctype="multipart/form-data">
+
+                            {% csrf_token %}
+
+                            <div class="text-center mb-4">
+
+                                {% if user.profile_image %}
+
+                                <img src="{{ user.profile_image.url }}" class="rounded-circle mb-3" width="130"
+                                    height="130" style="object-fit:cover;">
+
+                                {% endif %}
+
+                                <input type="file" name="profile_image" class="form-control">
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">Full Name</label>
+
+                                    <input type="text" name="full_name" class="form-control"
+                                        value="{{ user.full_name }}">
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">Email</label>
+
+                                    <input type="email" name="email" class="form-control" value="{{ user.email }}">
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">Mobile Number</label>
+
+                                    <input type="text" name="mobile_no" class="form-control"
+                                        value="{{ user.mobile_no|default_if_none:'' }}">
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">Alternate Mobile</label>
+
+                                    <input type="text" name="alternate_mobile_no" class="form-control"
+                                        value="{{ user.alternate_mobile_no|default_if_none:'' }}">
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">Date of Birth</label>
+
+                                    <input type="date" name="dob" class="form-control"
+                                        value="{{ user.dob|date:'Y-m-d' }}">
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">Gender</label>
+
+                                    <select name="gender" class="form-select">
+
+                                        <option value="">Select Gender</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                        <option value="O">Other</option>
+
+                                    </select>
+
+                                </div>
+                                <div class="col-12 mb-4">
+
+                                    <label class="form-label">Address</label>
+
+                                    <textarea name="address"
+                                        class="form-control">{{ user.address|default_if_none:'' }}</textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="text-center">
+
+                                <button type="submit" class="btn btn-primary px-5">
+
+                                    Save Changes
+
+                                </button>
+
+                                <a href="{% url 'profile' %}" class="btn btn-outline-secondary ms-2">
+
+                                    Cancel
+
+                                </a>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

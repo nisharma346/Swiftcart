@@ -51,4 +51,20 @@ path(
     views.ajax_add_to_cart,
     name="ajax_add_to_cart"
 ),
+# ================= STATIC PAGES =================
+
+path("privacy/", views.privacy, name="privacy"),
+
+path("refund/", views.refund, name="refund"),
+
+path("shipping/", views.shipping, name="shipping"),
+
+path("terms/", views.terms, name="terms"),
+
+path("mission/", views.mission, name="mission"),
+
+path("vision/", views.vision, name="vision"),
+path("profile/", views.profile, name="profile"),
+
+path("profile/edit/", views.edit_profile, name="edit_profile"),
 ]

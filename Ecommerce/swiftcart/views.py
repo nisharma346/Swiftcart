@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from .forms import ContactForm, CustomUserRegistrationForm
-from .models import Category, CustomUser, GalleryImage, Product, Contact
+from .models import Category, CustomUser, GalleryImage, Product, Contact,Announcement
 from django.shortcuts import get_object_or_404
 from .models import Order, OrderItem
 from django.http import JsonResponse
@@ -219,8 +219,11 @@ def cart(request):
 
     for product_id, quantity in cart.items():
 
-        product = Product.objects.filter(id=product_id).first()
-
+        product = get_object_or_404(
+    Product,
+    slug=slug,
+    is_active=True
+)
         if product:
 
             total = product.price * quantity
@@ -282,7 +285,7 @@ def wishlist(request):
             wishlist_items.append(product)
 
     context ={
-       "products": product_list,
+       "products": wishlist_items,
         "wishlist": wishlist,
         "wishlist_items": wishlist_items,
         "page_title": "Wishlist",
@@ -447,3 +450,98 @@ def ajax_add_to_cart(request, product_id):
     return JsonResponse({
         "count": sum(cart.values())
     })
+# ================= STATIC PAGES =================
+
+def privacy(request):
+    return render(request, 'swiftcart/privacy.html', {
+        'page_heading': 'Privacy Policy',
+        'page_title': 'Privacy Policy',
+    })
+
+
+def refund(request):
+    return render(request, 'swiftcart/refund.html', {
+        'page_heading': 'Refund Policy',
+        'page_title': 'Refund Policy',
+    })
+
+
+def shipping(request):
+    return render(request, 'swiftcart/shipping.html', {
+        'page_heading': 'Shipping Policy',
+        'page_title': 'Shipping Policy',
+    })
+
+
+def terms(request):
+    return render(request, 'swiftcart/terms.html', {
+        'page_heading': 'Terms & Conditions',
+        'page_title': 'Terms & Conditions',
+    })
+
+
+def mission(request):
+    return render(request, 'swiftcart/mission.html', {
+        'page_heading': 'Our Mission',
+        'page_title': 'Our Mission',
+    })
+
+
+def vision(request):
+    return render(request, 'swiftcart/vision.html', {
+        'page_heading': 'Our Vision',
+        'page_title': 'Our Vision',
+    })
+@login_required(login_url="login")
+def profile(request):
+
+    context = {
+
+        "page_title": "My Profile",
+
+        "page_heading": "My Profile",
+
+        "page_subtitle": "Manage your personal information.",
+
+    }
+
+    return render(
+        request,
+        "swiftcart/profile.html",
+        context
+    )
+@login_required(login_url="login")
+def edit_profile(request):
+
+    user = request.user
+
+    if request.method == "POST":
+
+        user.full_name = request.POST.get("full_name")
+        user.email = request.POST.get("email")
+        user.mobile_no = request.POST.get("mobile_no")
+        user.alternate_mobile_no = request.POST.get("alternate_mobile_no")
+        user.dob = request.POST.get("dob")
+        user.gender = request.POST.get("gender")
+        user.address = request.POST.get("address")
+
+        if request.FILES.get("profile_image"):
+            user.profile_image = request.FILES.get("profile_image")
+
+        user.save()
+
+        messages.success(request, "Profile updated successfully.")
+
+        return redirect("profile")
+
+    context = {
+
+        "page_title": "Edit Profile",
+
+        "page_heading": "Edit Profile",
+
+        "page_subtitle": "Update your personal information.",
+
+    }
+
+    return render(request, "swiftcart/edit_profile.html", context)
