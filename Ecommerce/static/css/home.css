@@ -308,68 +308,56 @@ WHY CHOOSE
 
 .newsletter-section {
     background: #eef5ff;
-    padding: 70px 0 60px;
+    padding: 40px 0 35px;
     text-align: center;
 }
 
 .newsletter-section h2 {
-    font-size: 52px;
+    font-size: 34px;
     font-weight: 700;
     color: #1b2b4b;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
 }
 
 .newsletter-section p {
-    font-size: 20px;
+
+    font-size: 15px;
+    margin-bottom: 22px;
     color: #667085;
-    margin-bottom: 35px;
 }
 
 .newsletter-form {
     display: flex;
     justify-content: center;
-    max-width: 1100px;
+    max-width: 850px;
     margin: auto;
 }
 
 .newsletter-form input {
-
     width: 75%;
-    height: 72px;
 
     border: 1px solid #ddd;
     border-right: none;
-
     border-radius: 12px 0 0 12px;
-
-    padding: 0 28px;
-
-    font-size: 20px;
-
     outline: none;
-
     background: white;
+    height: 55px;
+    font-size: 15px;
+    padding: 0 20px;
 
 }
 
 .newsletter-form button {
-
-    width: 230px;
     height: 72px;
-
     border: none;
-
     background: #ff7a22;
-
     color: white;
-
-    font-size: 22px;
-
     font-weight: 600;
-
     border-radius: 0 12px 12px 0;
-
     transition: .3s;
+    width: 180px;
+    height: 55px;
+    font-size: 16px;
 
 }
 
@@ -450,16 +438,20 @@ RESPONSIVE
 @media (max-width:992px) {
 
     .newsletter-section {
-        padding: 55px 0;
+        background: #eef5ff;
+        padding: 40px 0 35px;
     }
 
     .newsletter-section h2 {
-        font-size: 42px;
+        font-size: 34px;
+        font-weight: 700;
+        margin-bottom: 10px
     }
 
     .newsletter-section p {
-        font-size: 18px;
-        margin-bottom: 30px;
+        font-size: 16px;
+        margin-bottom: 22px;
+        color: #667085;
     }
 
     .newsletter-form {
@@ -468,7 +460,9 @@ RESPONSIVE
 
         align-items: center;
 
-        gap: 15px;
+        gap: 10px;
+        max-width: 850px;
+        margin: auto;
 
     }
 
@@ -476,25 +470,31 @@ RESPONSIVE
 
         width: 100%;
 
-        height: 60px;
+
 
         border-radius: 10px;
 
         border: 1px solid #ddd;
 
-        font-size: 17px;
+
+        height: 50px;
+        font-size: 12px;
+        padding: 0 20px;
 
     }
 
     .newsletter-form button {
 
-        width: 100%;
+
 
         height: 60px;
 
         border-radius: 10px;
 
-        font-size: 18px;
+
+        width: 180px;
+        height: 50px;
+        font-size: 12px;
 
     }
 
