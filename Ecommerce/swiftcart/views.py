@@ -221,7 +221,7 @@ def cart(request):
 
         product = get_object_or_404(
     Product,
-    slug=slug,
+    id=product_id,
     is_active=True
 )
         if product:

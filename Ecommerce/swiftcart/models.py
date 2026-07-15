@@ -163,6 +163,8 @@ class Product(models.Model):
         null=True
     )
 
+    discount = models.PositiveIntegerField(default=0)
+
     stock = models.PositiveIntegerField(default=0)
 
     image = models.ImageField(
@@ -232,6 +234,33 @@ class GalleryImage(models.Model):
 
     def __str__(self):
         return self.title or self.image.name
+class TeamMember(models.Model):
+    """Team member model for the About Us page."""
+
+    employee_image = models.ImageField(
+        upload_to='team/',
+        blank=True,
+        null=True,
+        help_text="Photo of the team member"
+    )
+    employee_name = models.CharField(max_length=255)
+    role = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(
+        default=0,
+        help_text="Controls display order on the About Us page (lower first)"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('order', 'employee_name')
+        verbose_name = 'Team Member'
+        verbose_name_plural = 'Team Members'
+
+    def __str__(self):
+        return f"{self.employee_name} ({self.role})"        
 
 
 class Order(models.Model):
