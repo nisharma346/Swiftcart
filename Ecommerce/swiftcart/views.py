@@ -8,6 +8,7 @@ from .models import Category, CustomUser, GalleryImage, Product, Contact,Announc
 from django.shortcuts import get_object_or_404
 from .models import Order, OrderItem
 from django.http import JsonResponse
+from .models import TeamMember
 
 # Create your views here.
 def home(request):
@@ -175,40 +176,18 @@ def gallery(request):
     }
     return render(request, 'swiftcart/gallery.html', context)
 
-
 def about_us(request):
+
+    team_members = TeamMember.objects.all()
+
     context = {
+        "team_members": team_members,
         "page_title": "About Us",
         "page_heading": "About Us",
-        "page_subtitle": "Learn more about SwiftCart and our commitment to quality, trust, and customer satisfaction.",
+        "page_subtitle": "Learn more about SwiftCart.",
     }
+
     return render(request, "swiftcart/about.html", context)
-
-
-@require_http_methods(["GET", "POST"])
-def contact_us(request):
-    if request.method == "POST":
-        form = ContactForm(request.POST)
-
-        if form.is_valid():
-            # Save or process form here if needed
-            messages.success(
-                request,
-                "Thank you! Your message has been sent successfully."
-            )
-            return redirect("contact")
-
-    else:
-        form = ContactForm()
-
-    context = {
-        "form": form,
-        "page_title": "Contact Us",
-        "page_heading": "Contact Us",
-        "page_subtitle": "Have a question or need assistance? We'd love to hear from you.",
-    }
-
-    return render(request, "swiftcart/contact.html", context)
 def cart(request):
 
     cart = request.session.get("cart", {})
@@ -545,3 +524,39 @@ def edit_profile(request):
     }
 
     return render(request, "swiftcart/edit_profile.html", context)
+def contact_us(request):
+
+    if request.method == "POST":
+
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Your message has been sent successfully."
+            )
+
+            return redirect("contact")
+
+    else:
+
+        form = ContactForm()
+
+    context = {
+
+        "form": form,
+
+        "page_title": "Contact Us",
+
+        "page_heading": "Contact Us",
+
+    }
+
+    return render(
+        request,
+        "swiftcart/contact.html",
+        context
+    )

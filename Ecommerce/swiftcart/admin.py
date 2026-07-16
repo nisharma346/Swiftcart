@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Category, CustomUser, GalleryImage, Product
 from .models import Order, OrderItem, Contact
 from .models import Announcement
+from .models import TeamMember
 
 admin.site.register(Contact)
 admin.site.register(Order)
@@ -117,4 +118,26 @@ class CustomUserAdmin(BaseUserAdmin):
 @admin.register(Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):
     list_display = ('message', 'is_active', 'created_at')
-    list_filter = ('is_active',)   
+    list_filter = ('is_active',) 
+     
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = (
+        "employee_name",
+        "role",
+        "is_active",
+        "order",
+    )
+
+    list_filter = (
+        "is_active",
+    )
+
+    search_fields = (
+        "employee_name",
+        "role",
+    )
+
+    ordering = (
+        "order",
+    ) 

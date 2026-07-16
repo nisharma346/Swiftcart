@@ -152,10 +152,12 @@ from django.utils.text import slugify
 
 class Product(models.Model):
     category = models.ForeignKey(
-        Category,
-        on_delete=models.CASCADE,
-        related_name="products"
-    )
+    "Category",
+    on_delete=models.CASCADE,
+    related_name="products",
+    null=True,
+    blank=True
+)
 
     name = models.CharField(max_length=255)
 
@@ -248,35 +250,21 @@ class GalleryImage(models.Model):
     def __str__(self):
         return self.title or self.image.name
 class TeamMember(models.Model):
-    """Team member model for the About Us page."""
+    employee_image = models.ImageField(upload_to="team/")
+    employee_name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    description = models.TextField()
 
-    employee_image = models.ImageField(
-        upload_to='team/',
-        blank=True,
-        null=True,
-        help_text="Photo of the team member"
-    )
-    employee_name = models.CharField(max_length=255)
-    role = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
-    order = models.PositiveIntegerField(
-        default=0,
-        help_text="Controls display order on the About Us page (lower first)"
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    order = models.PositiveIntegerField(default=0)
 
     class Meta:
-        ordering = ('order', 'employee_name')
-        verbose_name = 'Team Member'
-        verbose_name_plural = 'Team Members'
+        ordering = ["order"]
 
     def __str__(self):
-        return f"{self.employee_name} ({self.role})"        
-
-
+        return self.employee_name
 class Order(models.Model):
+
     user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE
@@ -306,17 +294,16 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.id}"
 
-
 class OrderItem(models.Model):
 
     order = models.ForeignKey(
-        Order,
+        "Order",
         on_delete=models.CASCADE,
         related_name="items"
     )
 
     product = models.ForeignKey(
-        Product,
+        "Product",
         on_delete=models.CASCADE
     )
 
@@ -329,7 +316,6 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.product.name
-
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
