@@ -77,19 +77,69 @@
                 </a>
                 {% if user.is_authenticated %}
 
-                <a href="#" class="login-btn">
-                    <i class="fas fa-user"></i>
-                    {{ user.first_name|default:"My Account" }}
-                </a>
+                <div class="dropdown">
+
+                    <a class="login-btn dropdown-toggle text-decoration-none" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <i class="fas fa-user me-2"></i>
+                        {{ user.first_name|default:"My Account" }}
+
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'profile' %}">
+                                <i class="fas fa-user-circle me-2"></i>
+                                My Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'my_orders' %}">
+                                <i class="fas fa-box me-2"></i>
+                                My Orders
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'wishlist' %}">
+                                <i class="fas fa-heart me-2 text-danger"></i>
+                                My Wishlist
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'cart' %}">
+                                <i class="fas fa-shopping-cart me-2 text-primary"></i>
+                                My Cart
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
 
                 {% else %}
 
-                <a href="{% url 'profile' %}" class="login-btn">
+                <a href="{% url 'login' %}" class="login-btn">
+                    <i class="fas fa-sign-in-alt me-2"></i>
                     Login
                 </a>
 
                 {% endif %}
-
             </div>
 
         </div>

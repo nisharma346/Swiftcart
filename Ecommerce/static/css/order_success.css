@@ -1,0 +1,33 @@
+.success-card h2 {
+    color: #0d6efd;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.success-icon i {
+    font-size: 80px;
+    color: #28a745;
+}
+
+.success-card h2 {
+    color: #0d6efd;
+}
+
+.success-card p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #6c757d;
+}
+
+.success-card .btn {
+    min-width: 180px;
+}
+
+.card-header h5 {
+    font-size: 20px;
+}
+
+.table th,
+.table td {
+    font-size: 15px;
+}

@@ -265,6 +265,25 @@ class TeamMember(models.Model):
         return self.employee_name
 class Order(models.Model):
 
+    PAYMENT_METHODS = [
+        ("COD", "Cash On Delivery"),
+        ("RAZORPAY", "Razorpay"),
+    ]
+
+    PAYMENT_STATUS = [
+        ("Pending", "Pending"),
+        ("Success", "Success"),
+        ("Failed", "Failed"),
+    ]
+
+    STATUS_CHOICES = [
+        ("Pending", "Pending"),
+        ("Confirmed", "Confirmed"),
+        ("Shipped", "Shipped"),
+        ("Delivered", "Delivered"),
+        ("Cancelled", "Cancelled"),
+    ]
+
     user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE
@@ -289,11 +308,41 @@ class Order(models.Model):
         decimal_places=2
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    # ---------------- Payment ----------------
 
-    def __str__(self):
-        return f"Order #{self.id}"
+    payment_method = models.CharField(
+    max_length=20,
+    default="COD"
+)
 
+payment_status = models.CharField(
+    max_length=20,
+    default="Pending"
+)
+
+razorpay_order_id = models.CharField(
+    max_length=200,
+    blank=True,
+    null=True
+)
+
+razorpay_payment_id = models.CharField(
+    max_length=200,
+    blank=True,
+    null=True
+)
+
+    # ---------------- Order Status ----------------
+
+status = models.CharField(
+    max_length=20,
+    default="Pending"
+)
+
+created_at = models.DateTimeField(auto_now_add=True)
+
+def __str__(self):
+    return f"Order #{self.id}"
 class OrderItem(models.Model):
 
     order = models.ForeignKey(

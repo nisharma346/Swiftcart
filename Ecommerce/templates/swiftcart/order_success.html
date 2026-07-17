@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Success{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_success.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="container py-5">
+    <div class="success-card text-center shadow-sm p-5 rounded bg-white">
+
+        <!-- Success Icon -->
+        <div class="success-icon mb-3">
+            <i class="fa-solid fa-circle-check text-success"></i>
+        </div>
+
+        <!-- Heading -->
+        <h2 class="fw-bold mb-3">
+            🎉 Your Order Has Been Placed Successfully!
+        </h2>
+
+        <!-- Description -->
+        <p class="text-muted mb-4">
+            Thank you for shopping with <strong>SwiftCart</strong>.<br>
+            We have received your order successfully and will start processing it shortly.
+        </p>
+        {% if order %}
+        <div class="alert alert-light border rounded mt-4">
+
+            <h5 class="mb-3">Order Details</h5>
+
+            <p><strong>Order ID:</strong> #{{ order.id }}</p>
+
+            <p><strong>Name:</strong> {{ order.full_name }}</p>
+
+            <p><strong>Email:</strong> {{ order.email }}</p>
+
+            <p><strong>Mobile:</strong> {{ order.mobile }}</p>
+
+            <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+
+        </div>
+
+    </div>
+    {% endif %}
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+
+        <a href="{% url 'product_list' %}" class="btn btn-primary px-4">
+            <i class="fa-solid fa-cart-shopping me-2"></i>
+            Continue Shopping
+        </a>
+
+        <a href="{% url 'home' %}" class="btn btn-outline-primary px-4">
+            <i class="fa-solid fa-house me-2"></i>
+            Go Home
+        </a>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="btn btn-success px-4">
+            <i class="fa-solid fa-user me-2"></i>
+            My Profile
+        </a>
+        {% endif %}
+
+    </div>
+
+    </div>
+</section>
+
+{% endblock %}

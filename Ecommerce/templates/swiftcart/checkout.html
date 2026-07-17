@@ -107,6 +107,27 @@
                 </div>
 
             </div>
+            <div class="col-12 mb-3">
+                <label class="form-label fw-bold">
+                    Payment Method
+                </label>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="payment_method" id="cod" value="COD" checked>
+
+                    <label class="form-check-label" for="cod">
+                        Cash on Delivery
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" id="online" value="ONLINE">
+
+                    <label class="form-check-label" for="online">
+                        Razorpay Online Payment
+                    </label>
+                </div>
+            </div>
 
             <!-- Order Summary -->
 
@@ -196,12 +217,9 @@
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 mt-4">
-
+                    <button type="submit" id="place-order-btn" class="btn btn-primary w-100 mt-4">
                         <i class="fa-solid fa-lock me-2"></i>
-
                         Place Order
-
                     </button>
 
                 </div>
@@ -213,5 +231,63 @@
     </div>
 
 </div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const form = document.querySelector("form");
+        const placeOrderBtn = document.getElementById("place-order-btn");
+
+        form.addEventListener("submit", function (e) {
+
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+
+            if (paymentMethod === "ONLINE") {
+                e.preventDefault();
+
+                var options = {
+                    "key": "{{ razorpay_key }}",
+                    "amount": "{{ amount }}",
+                    "currency": "INR",
+                    "name": "SwiftCart",
+                    "description": "Order Payment",
+                    "order_id": "{{ razorpay_order_id }}",
+
+                    "handler": function (response) {
+                        const paymentIdInput = document.createElement("input");
+                        paymentIdInput.type = "text";
+                        paymentIdInput.name = "razorpay_payment_id";
+                        paymentIdInput.value = response.razorpay_payment_id;
+                        paymentIdInput.hidden = true;
+                        form.appendChild(paymentIdInput);
+
+                        const orderIdInput = document.createElement("input");
+                        orderIdInput.type = "text";
+                        orderIdInput.name = "razorpay_order_id";
+                        orderIdInput.value = response.razorpay_order_id;
+                        orderIdInput.hidden = true;
+                        form.appendChild(orderIdInput);
+
+                        form.submit();
+                    },
+
+                    "prefill": {
+                        "name": document.querySelector('input[name="full_name"]').value,
+                        "email": document.querySelector('input[name="email"]').value,
+                        "contact": document.querySelector('input[name="mobile"]').value
+                    },
+
+                    "theme": {
+                        "color": "#0d6efd"
+                    }
+                };
+
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            }
+        });
+    });
+</script>
 
 {% endblock %}

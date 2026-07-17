@@ -9,6 +9,12 @@ from django.shortcuts import get_object_or_404
 from .models import Order, OrderItem
 from django.http import JsonResponse
 from .models import TeamMember
+import razorpay
+
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 # Create your views here.
 def home(request):
@@ -331,6 +337,7 @@ def checkout(request):
     context = {
         "cart_items": cart_items,
         "grand_total": grand_total,
+
         "page_title": "Checkout",
         "page_heading": "Checkout",
         "page_subtitle": "Complete your order securely.",
@@ -338,17 +345,29 @@ def checkout(request):
 
     return render(request, "swiftcart/checkout.html", context)
 @login_required(login_url="login")
+
 def place_order(request):
 
-    if request.method == "POST":
+    if request.method != "POST":
+        return redirect("checkout")
 
-        cart = request.session.get("cart", {})
+    cart = request.session.get("cart", {})
 
-        if not cart:
-            messages.error(request, "Your cart is empty.")
-            return redirect("cart")
+    if not cart:
+        messages.error(request, "Your cart is empty.")
+        return redirect("cart")
 
-        grand_total = 0
+    payment_method = request.POST.get("payment_method")
+
+    grand_total = 0
+
+    for product_id, qty in cart.items():
+        product = Product.objects.get(id=product_id)
+        grand_total += product.price * qty
+
+    # ================= COD ===================
+
+    if payment_method == "COD":
 
         order = Order.objects.create(
             user=request.user,
@@ -359,41 +378,73 @@ def place_order(request):
             city=request.POST["city"],
             state=request.POST["state"],
             pincode=request.POST["pincode"],
-            total_amount=0
+            total_amount=grand_total,
+            payment_method="COD",
+            payment_status="Pending",
         )
 
-        for product_id, quantity in cart.items():
-
+        for product_id, qty in cart.items():
             product = Product.objects.get(id=product_id)
-
-            total = product.price * quantity
-
-            grand_total += total
 
             OrderItem.objects.create(
                 order=order,
                 product=product,
-                quantity=quantity,
+                quantity=qty,
                 price=product.price
             )
 
-        order.total_amount = grand_total
-        order.save()
-
         request.session["cart"] = {}
-
-        messages.success(request, "Order placed successfully!")
+        request.session["last_order_id"] = order.id
 
         return redirect("order_success")
 
-    return redirect("checkout")
+    # ================= RAZORPAY ===================
+
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
+
+    payment = client.order.create({
+        "amount": int(grand_total * 100),
+        "currency": "INR",
+        "payment_capture": 1
+    })
+
+    request.session["checkout_data"] = {
+        "full_name": request.POST["full_name"],
+        "email": request.POST["email"],
+        "mobile": request.POST["mobile"],
+        "address": request.POST["address"],
+        "city": request.POST["city"],
+        "state": request.POST["state"],
+        "pincode": request.POST["pincode"],
+    }
+
+    return render(request, "swiftcart/payment.html", {
+        "payment": payment,
+        "amount": grand_total,
+        "razorpay_key": settings.RAZORPAY_KEY_ID,
+    })
 @login_required(login_url="login")
+
+
 def order_success(request):
+
+    order = None
+
+    order_id = request.session.get("last_order_id")
+
+    if order_id:
+        order = get_object_or_404(Order, id=order_id)
+
+        # Ek baar show hone ke baad session remove
+        del request.session["last_order_id"]
 
     context = {
         "page_title": "Order Success",
         "page_heading": "Order Placed Successfully",
-        "page_subtitle": "Thank you for shopping with SwiftCart."
+        "page_subtitle": "Thank you for shopping with SwiftCart.",
+        "order": order,
     }
 
     return render(request, "swiftcart/order_success.html", context)
@@ -560,3 +611,71 @@ def contact_us(request):
         "swiftcart/contact.html",
         context
     )
+@login_required
+def my_orders(request):
+
+    orders = Order.objects.filter(user=request.user).order_by("-id")
+
+    context = {
+        "orders": orders,
+        "page_title": "My Orders",
+        "page_heading": "My Orders",
+        "page_subtitle": "View all your previous orders"
+    }
+
+    return render(request, "swiftcart/my_orders.html", context)
+
+
+@csrf_exempt
+def payment_success(request):
+
+    if request.method != "POST":
+        return redirect("checkout")
+
+    cart = request.session.get("cart", {})
+    data = request.session.get("checkout_data")
+
+    if not cart or not data:
+        messages.error(request, "Session expired.")
+        return redirect("checkout")
+
+    grand_total = 0
+
+    for product_id, qty in cart.items():
+        product = Product.objects.get(id=product_id)
+        grand_total += product.price * qty
+
+    order = Order.objects.create(
+        user=request.user,
+        full_name=data["full_name"],
+        email=data["email"],
+        mobile=data["mobile"],
+        address=data["address"],
+        city=data["city"],
+        state=data["state"],
+        pincode=data["pincode"],
+        total_amount=grand_total,
+        payment_method="RAZORPAY",
+        payment_status="Success",
+        razorpay_order_id=request.POST.get("razorpay_order_id"),
+        razorpay_payment_id=request.POST.get("razorpay_payment_id"),
+    )
+
+    for product_id, qty in cart.items():
+
+        product = Product.objects.get(id=product_id)
+
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=qty,
+            price=product.price
+        )
+
+    request.session["cart"] = {}
+    request.session["last_order_id"] = order.id
+
+    if "checkout_data" in request.session:
+        del request.session["checkout_data"]
+
+    return redirect("order_success")

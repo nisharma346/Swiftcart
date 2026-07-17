@@ -141,3 +141,24 @@
     }
 
 }
+
+.dropdown-menu {
+    min-width: 220px;
+    border-radius: 12px;
+    border: none;
+}
+
+.dropdown-item {
+    padding: 10px 18px;
+    font-size: 15px;
+    transition: .3s;
+}
+
+.dropdown-item:hover {
+    background: #0d6efd;
+    color: #fff;
+}
+
+.dropdown-item:hover i {
+    color: #fff !important;
+}
