@@ -307,47 +307,65 @@ WHY CHOOSE
 }
 
 .newsletter-section {
-    background: #eef5ff;
-    padding: 40px 0 35px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 55px 0;
     text-align: center;
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .newsletter-section h2 {
-    font-size: 34px;
-    font-weight: 700;
-    color: #1b2b4b;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #ffffff;
     margin-bottom: 10px;
 }
 
 .newsletter-section p {
-
-    font-size: 15px;
-    margin-bottom: 22px;
-    color: #667085;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    color: #94a3b8;
 }
 
 .newsletter-form {
     display: flex;
     justify-content: center;
-    max-width: 850px;
-    margin: auto;
+    max-width: 620px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 50px;
+    overflow: hidden;
+    background: #ffffff;
+    padding: 4px;
 }
 
 .newsletter-form input {
-    width: 75%;
-
-    border: 1px solid #ddd;
-    border-right: none;
-    border-radius: 12px 0 0 12px;
+    flex: 1;
+    border: none;
     outline: none;
-    background: white;
-    height: 55px;
-    font-size: 15px;
-    padding: 0 20px;
-
+    background: transparent;
+    height: 50px;
+    font-size: 0.95rem;
+    padding: 0 24px;
+    color: #0f172a;
 }
 
 .newsletter-form button {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
+    border: none;
+    padding: 0 32px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.newsletter-form button:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+}
     height: 72px;
     border: none;
     background: #ff7a22;

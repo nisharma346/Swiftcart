@@ -1,470 +1,250 @@
+/* ============================================================
+   SwiftCart Dark Premium Footer Stylesheet
+============================================================ */
+
 .footer {
-
-    background: white;
-
-    padding: 60px 0 20px;
+    background: #0f172a;
+    color: #94a3b8;
+    padding: 60px 0 30px;
+    font-size: 0.95rem;
+    position: relative;
+    border-top: 4px solid #2563eb;
 }
 
 /* Logo */
-
 .footer-logo {
-
-    width: 200px;
-    margin-bottom: 15px;
+    max-width: 140px !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 6px 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Description */
-
 .footer-text {
-    color: #4a5568;
-    font-size: 18px;
-    line-height: 1.5;
-    max-width: 260px;
-    margin-top: 15px;
-
+    color: #94a3b8;
+    font-size: 0.925rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
 }
 
-/* =======================================
-            SOCIAL ICONS
-======================================= */
-
+/* Social Media Icons */
 .social-icons {
     display: flex;
-    margin-top: 18px;
-    gap: 12px;
-
+    gap: 10px;
 }
 
 .social-icons a {
-    border-radius: 50%;
-    border: 1px solid #e5e7eb;
-    background: white;
-    display: flex;
-    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
-    color: #1d4ed8;
-    transition: .3s;
-    width: 42px;
-    height: 42px;
-    font-size: 17px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .social-icons a:hover {
-
-    background: #1d4ed8;
-
-    color: white;
-
-    transform: translateY(-6px);
-
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #3b82f6;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
 }
 
-
-/* =======================================
-              HEADINGS
-======================================= */
-
-.footer h4 {
+/* Headings */
+.footer-heading {
+    font-size: 1.15rem;
     font-weight: 700;
-    color: #1b2b4b;
+    color: #ffffff;
     position: relative;
-    font-size: 22px;
-    margin-bottom: 22px;
-
+    margin-bottom: 24px;
+    letter-spacing: 0.3px;
 }
 
-.footer h4::after {
-
-    content: "";
-
-    width: 50px;
-
-    height: 4px;
-
-    background: #ff7a22;
-
+.footer-heading::after {
+    content: '';
     position: absolute;
-
     left: 0;
-
-    bottom: -12px;
-
+    bottom: -8px;
+    width: 35px;
+    height: 3px;
+    background: linear-gradient(90deg, #2563eb, #38bdf8);
+    border-radius: 2px;
 }
 
-
-/* =======================================
-                LINKS
-======================================= */
-
-.footer ul {
-
+/* Footer Navigation Links */
+.footer-links {
     list-style: none;
-
     padding: 0;
-
     margin: 0;
-
 }
 
-.footer ul li {
-
+.footer-links li {
     margin-bottom: 12px;
-
 }
 
-.footer ul li a {
-
+.footer-links a {
+    color: #94a3b8;
     text-decoration: none;
-
-    color: #25364d;
-
-    font-size: 15px;
-
-    transition: .3s;
-
+    font-size: 0.925rem;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.25s ease;
 }
 
-.footer ul li i {
-
-    color: #ff7a22;
-
+.footer-links a i {
+    font-size: 0.7rem;
     margin-right: 8px;
-
+    color: #3b82f6;
+    transition: transform 0.25s ease;
 }
 
-.footer ul li a:hover {
-
-    color: #ff7a22;
-
-    padding-left: 6px;
-
+.footer-links a:hover {
+    color: #ffffff;
+    transform: translateX(4px);
 }
 
+.footer-links a:hover i {
+    color: #60a5fa;
+    transform: translateX(2px);
+}
 
-/* =======================================
-            CONTACT
-======================================= */
+/* Contact Info Section */
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
 
-.contact-info p {
-    color: #25364d;
+.contact-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(37, 99, 235, 0.15);
+    color: #60a5fa;
     display: flex;
     align-items: center;
-    font-size: 15px;
-    margin-bottom: 15px;
-
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 2px;
 }
 
-.contact-info i {
-    color: #ff7a22;
-    font-size: 18px;
-    margin-right: 10px;
+.contact-item strong {
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    display: block;
 }
 
-
-/* =======================================
-              HR
-======================================= */
-
-.footer hr {
-
-
-    margin: 20px 0 10px;
-    opacity: .15;
-
+.contact-item p {
+    color: #94a3b8;
+    font-size: 0.9rem;
 }
 
+/* Divider */
+.footer-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    margin: 30px 0 20px;
+}
 
-/* =======================================
-          FOOTER BOTTOM
-======================================= */
-
+/* Footer Bottom Bar */
 .footer-bottom {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
-    margin-top: 15px;
-    padding-top: 12px;
-
+    gap: 15px;
 }
 
 .copyright {
-
-    font-size: 15px;
-
-    color: #4b5563;
-
+    color: #94a3b8;
+    font-size: 0.9rem;
 }
 
 .copyright span {
-
-    color: #ff7a22;
-
+    color: #60a5fa;
     font-weight: 700;
-
 }
 
-
-/* =======================================
-         PAYMENT ICONS
-======================================= */
-
-.payment-icons {
-
+/* Payment Badges */
+.payment-badges {
     display: flex;
-
-    gap: 14px;
-
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.payment-icons img {
-
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    transition: .3s;
-    width: 52px;
-    height: auto;
-    padding: 6px;
+.badge-pill {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
 }
 
-.payment-icons img:hover {
-
-    transform: translateY(-5px);
-
-    box-shadow: 0 12px 20px rgba(0, 0, 0, .08);
-
+.badge-pill:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    transform: translateY(-2px);
 }
 
-/* ===========================================
-            FOOTER RESPONSIVE
-=========================================== */
-
-@media (max-width:992px) {
-
+/* Responsive Media Queries */
+@media (max-width: 992px) {
     .footer {
-
-        padding: 55px 0 20px;
-
-        text-align: center;
-
+        padding: 50px 0 25px;
     }
+}
 
-    .footer-logo {
-
-        width: 220px;
-
-        margin: auto;
-
-        display: block;
-
-        margin-bottom: 20px;
-
-    }
-
-    .footer-text {
-
-        max-width: 100%;
-
-        margin: auto;
-
-        margin-bottom: 25px;
-
-    }
-
-    .social-icons {
-
-        justify-content: center;
-
-        margin-bottom: 35px;
-
-    }
-
-    .footer h4 {
-
-        margin-top: 30px;
-
-        font-size: 30px;
-
-    }
-
-    .footer h4::after {
-
+@media (max-width: 768px) {
+    .footer-heading::after {
         left: 50%;
-
         transform: translateX(-50%);
-
     }
-
-    .footer ul li {
-
-        margin-bottom: 18px;
-
-    }
-
-    .contact-info p {
-
-        justify-content: center;
-
-    }
-
-    .footer-bottom {
-
-        flex-direction: column;
-
-        gap: 20px;
-
+    .footer-heading {
         text-align: center;
-
     }
-
-}
-
-@media (max-width:768px) {
-
-    .footer {
-
-        padding: 45px 0 20px;
-
-    }
-
-    .footer-logo {
-
-        width: 190px;
-
-    }
-
-    .footer-text {
-
-        font-size: 16px;
-
-        line-height: 1.8;
-
-    }
-
-    .footer h4 {
-
-        font-size: 26px;
-
-    }
-
-    .footer ul li a {
-
-        font-size: 17px;
-
-    }
-
-    .contact-info p {
-
-        font-size: 17px;
-
-    }
-
-    .contact-info i {
-
-        font-size: 20px;
-
-    }
-
-    .social-icons a {
-
-        width: 48px;
-
-        height: 48px;
-
-        font-size: 18px;
-
-    }
-
-    .payment-icons {
-
-        justify-content: center;
-
-        flex-wrap: wrap;
-
-    }
-
-    .payment-icons img {
-
-        width: 60px;
-
-    }
-
-    .copyright {
-
-        font-size: 16px;
-
-    }
-
-}
-
-@media (max-width:576px) {
-
-    .footer {
-
+    .footer-brand-box {
         text-align: center;
-
     }
-
     .footer-logo {
-
-        width: 170px;
-
+        margin: 0 auto;
     }
-
-    .footer h4 {
-
-        font-size: 24px;
-
-    }
-
-    .footer ul li {
-
-        margin-bottom: 14px;
-
-    }
-
-    .footer ul li a {
-
-        font-size: 16px;
-
-    }
-
-    .contact-info p {
-
-        font-size: 16px;
-
-    }
-
     .social-icons {
-
-        gap: 12px;
-
+        justify-content: center;
     }
-
-    .social-icons a {
-
-        width: 44px;
-
-        height: 44px;
-
-        font-size: 17px;
-
+    .footer-links {
+        text-align: center;
     }
-
-    .payment-icons {
-
-        gap: 10px;
-
+    .footer-links a {
+        justify-content: center;
     }
-
-    .payment-icons img {
-
-        width: 54px;
-
-        padding: 8px;
-
+    .contact-item {
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
     }
-
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+    }
+    .payment-badges {
+        justify-content: center;
+    }
 }
