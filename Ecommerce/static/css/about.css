@@ -46,66 +46,45 @@
     margin-bottom: 30px;
 }
 
-/* Hero Visual Card Container */
-.hero-visual-card {
+/* Hero Image & Visual Container (No blue background box) */
+.hero-image-container {
     position: relative;
-    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
-    border-radius: 28px;
-    padding: 40px 30px;
-    color: #ffffff;
-    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.25);
-    overflow: hidden;
+    padding: 10px;
 }
 
-.hero-visual-card::before {
-    content: '';
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.hero-visual-card::after {
-    content: '';
-    position: absolute;
-    bottom: -60px;
-    left: -60px;
-    width: 240px;
-    height: 240px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.hero-illustration-box {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-}
-
-.hero-illustration-box svg {
-    max-width: 100%;
+.about-hero-img {
+    max-width: 520px;
+    width: 100%;
     height: auto;
-    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
+    max-height: 380px;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 30px rgba(37, 99, 235, 0.12));
+    transition: transform 0.4s ease;
+}
+
+.about-hero-img:hover {
+    transform: translateY(-4px);
 }
 
 .floating-stat-chip {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     color: #0f172a;
-    padding: 12px 20px;
-    border-radius: 16px;
+    padding: 10px 20px;
+    border-radius: 50px;
     font-weight: 700;
     font-size: 0.9rem;
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.floating-stat-chip:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12);
+    border-color: #bfdbfe;
 }
 
 .floating-stat-chip:hover {
