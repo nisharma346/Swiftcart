@@ -307,24 +307,24 @@ WHY CHOOSE
 }
 
 .newsletter-section {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
     padding: 55px 0;
     text-align: center;
-    color: #ffffff;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: #0f172a;
+    border-top: 1px solid #bfdbfe;
 }
 
 .newsletter-section h2 {
     font-size: 2.2rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #0f172a;
     margin-bottom: 10px;
 }
 
 .newsletter-section p {
     font-size: 1rem;
     margin-bottom: 25px;
-    color: #94a3b8;
+    color: #475569;
 }
 
 .newsletter-form {
@@ -332,11 +332,12 @@ WHY CHOOSE
     justify-content: center;
     max-width: 620px;
     margin: 0 auto;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.12);
     border-radius: 50px;
     overflow: hidden;
     background: #ffffff;
     padding: 4px;
+    border: 1px solid #bfdbfe;
 }
 
 .newsletter-form input {
@@ -364,7 +365,7 @@ WHY CHOOSE
 
 .newsletter-form button:hover {
     background: linear-gradient(135deg, #ff6600 0%, #e65c00 100%);
-    box-shadow: 0 4px 15px rgba(255, 122, 34, 0.4);
+    box-shadow: 0 4px 15px rgba(255, 122, 34, 0.35);
 }
     height: 72px;
     border: none;

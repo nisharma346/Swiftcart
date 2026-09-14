@@ -13,7 +13,7 @@
 <section class="about-section">
     <div class="container">
         <div class="row align-items-center g-5">
-            
+
             <!-- Left Hero Content -->
             <div class="col-lg-6">
                 <span class="about-badge">
@@ -25,7 +25,9 @@
                 </h1>
 
                 <p class="about-text">
-                    SwiftCart was built to revolutionize e-commerce by offering quality products, unbeatable prices, and lightning-fast delivery across India. We combine modern innovation with customer-first values to make online shopping seamless and enjoyable.
+                    SwiftCart was built to revolutionize e-commerce by offering quality products, unbeatable prices, and
+                    lightning-fast delivery across India. We combine modern innovation with customer-first values to
+                    make online shopping seamless and enjoyable.
                 </p>
 
                 <div class="d-flex flex-wrap gap-3 mb-4">
@@ -39,32 +41,13 @@
             </div>
 
             <!-- Right Hero Graphic Container -->
-            <div class="col-lg-6">
-                <div class="hero-visual-card p-4 p-md-5">
-                    <div class="hero-illustration-box py-3">
-                        <svg viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-100">
-                            <!-- Background Circles -->
-                            <circle cx="250" cy="150" r="120" fill="white" fill-opacity="0.1" />
-                            <circle cx="250" cy="150" r="80" fill="white" fill-opacity="0.15" />
-                            
-                            <!-- Shopping Cart Body -->
-                            <path d="M120 90H170L200 200H350L380 120H185" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-                            <!-- Cart Wheels -->
-                            <circle cx="220" cy="235" r="18" fill="white"/>
-                            <circle cx="330" cy="235" r="18" fill="white"/>
-                            <!-- Speed Lines -->
-                            <line x1="70" y1="120" x2="140" y2="120" stroke="#60A5FA" stroke-width="8" stroke-linecap="round"/>
-                            <line x1="40" y1="150" x2="150" y2="150" stroke="white" stroke-width="8" stroke-linecap="round"/>
-                            <line x1="90" y1="180" x2="160" y2="180" stroke="#93C5FD" stroke-width="8" stroke-linecap="round"/>
-                            <!-- Package inside cart -->
-                            <rect x="210" y="110" width="70" height="70" rx="12" fill="#FCE7F3" stroke="#F43F5E" stroke-width="4"/>
-                            <path d="M245 110V180" stroke="#F43F5E" stroke-width="4"/>
-                            <rect x="265" y="90" width="60" height="60" rx="10" fill="#FEF08A" stroke="#EAB308" stroke-width="4"/>
-                        </svg>
-                    </div>
+            <div class="col-lg-6 text-center">
+                <div class="hero-image-container">
+                    <img src="{% static 'images/swiftcartaboutpage.png' %}" alt="SwiftCart About"
+                        class="about-hero-img">
 
                     <!-- Floating Badges -->
-                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
                         <div class="floating-stat-chip">
                             <i class="fas fa-smile text-warning fa-lg"></i>
                             <span>99.8% Satisfied Customers</span>
@@ -118,7 +101,8 @@
                     </div>
                     <h5>Our Mission</h5>
                     <p>
-                        To make online shopping simple, affordable, and enjoyable for everyone by pairing top-quality products with rapid delivery.
+                        To make online shopping simple, affordable, and enjoyable for everyone by pairing top-quality
+                        products with rapid delivery.
                     </p>
                 </div>
             </div>
@@ -130,7 +114,8 @@
                     </div>
                     <h5>Our Vision</h5>
                     <p>
-                        To become India's most trusted and customer-centric online shopping platform setting standards in quality and service.
+                        To become India's most trusted and customer-centric online shopping platform setting standards
+                        in quality and service.
                     </p>
                 </div>
             </div>
@@ -142,7 +127,8 @@
                     </div>
                     <h5>Core Values</h5>
                     <p>
-                        Integrity, Customer Obsession, Innovation, Uncompromising Product Quality, and Transparency guide everything we do.
+                        Integrity, Customer Obsession, Innovation, Uncompromising Product Quality, and Transparency
+                        guide everything we do.
                     </p>
                 </div>
             </div>
@@ -238,7 +224,8 @@
                 <div class="team-card h-100">
                     <div class="team-img-wrapper">
                         {% if member.employee_image %}
-                        <img src="{{ member.employee_image.url }}" alt="{{ member.employee_name }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <img src="{{ member.employee_image.url }}" alt="{{ member.employee_name }}"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="team-placeholder-avatar" style="display: none;">
                             <i class="fas fa-user-circle"></i>
                         </div>
@@ -253,7 +240,7 @@
                         <h4 class="team-name">{{ member.employee_name }}</h4>
                         <div class="team-role">{{ member.role }}</div>
                         <p class="team-desc">{{ member.description }}</p>
-                        
+
                         <div class="d-flex justify-content-center gap-3 mt-4 text-muted">
                             <a href="#" class="text-secondary hover-primary"><i class="fab fa-linkedin fa-lg"></i></a>
                             <a href="#" class="text-secondary hover-primary"><i class="fab fa-twitter fa-lg"></i></a>
@@ -274,7 +261,8 @@
             <div class="row align-items-center g-4">
                 <div class="col-md-8">
                     <h3>Ready to Start Shopping with SwiftCart?</h3>
-                    <p class="mb-0">Explore thousands of top-tier products with exclusive deals and instant delivery.</p>
+                    <p class="mb-0">Explore thousands of top-tier products with exclusive deals and instant delivery.
+                    </p>
                 </div>
                 <div class="col-md-4 text-md-end">
                     <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
