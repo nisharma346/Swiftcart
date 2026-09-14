@@ -134,6 +134,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Custom User Model Configuration
 AUTH_USER_MODEL = 'swiftcart.CustomUser'
-RAZORPAY_KEY_ID = "rzp_test_TE8Hs0J1GCv63B"
+RAZORPAY_KEY_ID = "rzp_test_TbrGFILoFiBmLb"
 
-RAZORPAY_KEY_SECRET = "G1OPIoCHDJK3iQgs010gxe8J"
+RAZORPAY_KEY_SECRET = "XrnPUQaj5Nw3prBqL6zt0vh0"

@@ -315,34 +315,32 @@ class Order(models.Model):
     default="COD"
 )
 
-payment_status = models.CharField(
-    max_length=20,
-    default="Pending"
-)
+    payment_status = models.CharField(
+        max_length=20,
+        default="Pending"
+    )
 
-razorpay_order_id = models.CharField(
-    max_length=200,
-    blank=True,
-    null=True
-)
+    razorpay_order_id = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
+    )
 
-razorpay_payment_id = models.CharField(
-    max_length=200,
-    blank=True,
-    null=True
-)
+    razorpay_payment_id = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
+    )
 
     # ---------------- Order Status ----------------
 
-status = models.CharField(
-    max_length=20,
-    default="Pending"
-)
+    status = models.CharField(
+        max_length=20,
+        default="Pending"
+    )
 
-created_at = models.DateTimeField(auto_now_add=True)
-
-def __str__(self):
-    return f"Order #{self.id}"
+    def __str__(self):
+        return f"Order #{self.id}"
 class OrderItem(models.Model):
 
     order = models.ForeignKey(

@@ -42,7 +42,7 @@
                                     <label class="form-label">Full Name</label>
 
                                     <input type="text" name="full_name" class="form-control"
-                                        value="{{ user.full_name }}">
+                                        value="{{ form.full_name.value|default:user.full_name|default:'' }}">
 
                                 </div>
 
@@ -50,7 +50,7 @@
 
                                     <label class="form-label">Email</label>
 
-                                    <input type="email" name="email" class="form-control" value="{{ user.email }}">
+                                    <input type="email" name="email" class="form-control" value="{{ form.email.value|default:user.email|default:'' }}">
 
                                 </div>
 
@@ -59,7 +59,7 @@
                                     <label class="form-label">Mobile Number</label>
 
                                     <input type="text" name="mobile_no" class="form-control"
-                                        value="{{ user.mobile_no|default_if_none:'' }}">
+                                        value="{{ form.mobile_no.value|default:user.mobile_no|default:'' }}">
 
                                 </div>
 
@@ -68,7 +68,7 @@
                                     <label class="form-label">Alternate Mobile</label>
 
                                     <input type="text" name="alternate_mobile_no" class="form-control"
-                                        value="{{ user.alternate_mobile_no|default_if_none:'' }}">
+                                        value="{{ form.alternate_mobile_no.value|default:user.alternate_mobile_no|default:'' }}">
 
                                 </div>
 
@@ -77,7 +77,7 @@
                                     <label class="form-label">Date of Birth</label>
 
                                     <input type="date" name="dob" class="form-control"
-                                        value="{{ user.dob|date:'Y-m-d' }}">
+                                        value="{% if form.dob.value %}{{ form.dob.value|date:'Y-m-d' }}{% elif user.dob %}{{ user.dob|date:'Y-m-d' }}{% endif %}">
 
                                 </div>
 
@@ -87,10 +87,10 @@
 
                                     <select name="gender" class="form-select">
 
-                                        <option value="">Select Gender</option>
-                                        <option value="M">Male</option>
-                                        <option value="F">Female</option>
-                                        <option value="O">Other</option>
+                                        <option value="" {% if not user.gender and not form.gender.value %}selected{% endif %}>Select Gender</option>
+                                        <option value="M" {% if user.gender == 'M' or form.gender.value == 'M' %}selected{% endif %}>Male</option>
+                                        <option value="F" {% if user.gender == 'F' or form.gender.value == 'F' %}selected{% endif %}>Female</option>
+                                        <option value="O" {% if user.gender == 'O' or form.gender.value == 'O' %}selected{% endif %}>Other</option>
 
                                     </select>
 
@@ -100,7 +100,7 @@
                                     <label class="form-label">Address</label>
 
                                     <textarea name="address"
-                                        class="form-control">{{ user.address|default_if_none:'' }}</textarea>
+                                        class="form-control">{{ form.address.value|default:user.address|default:'' }}</textarea>
                                 </div>
 
                             </div>

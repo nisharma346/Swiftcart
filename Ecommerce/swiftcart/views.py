@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from .forms import ContactForm, CustomUserRegistrationForm
+from .forms import ContactForm, CustomUserRegistrationForm, UserProfileEditForm
 from .models import Category, CustomUser, GalleryImage, Product, Contact,Announcement
 from django.shortcuts import get_object_or_404
 from .models import Order, OrderItem
@@ -12,7 +12,6 @@ from .models import TeamMember
 import razorpay
 
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -418,11 +417,11 @@ def place_order(request):
         "city": request.POST["city"],
         "state": request.POST["state"],
         "pincode": request.POST["pincode"],
+        "razorpay_order_id": payment["id"],
     }
 
     return render(request, "swiftcart/payment.html", {
         "payment": payment,
-        "amount": grand_total,
         "razorpay_key": settings.RAZORPAY_KEY_ID,
     })
 @login_required(login_url="login")
@@ -448,6 +447,18 @@ def order_success(request):
     }
 
     return render(request, "swiftcart/order_success.html", context)
+
+
+@login_required(login_url="login")
+def invoice(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    context = {
+        "order": order,
+        "page_title": f"Invoice #{order.id}",
+        "page_heading": f"Invoice #{order.id}",
+        "page_subtitle": "Invoice Details",
+    }
+    return render(request, "swiftcart/invoice.html", context)
 def toggle_wishlist(request, product_id):
 
     wishlist = request.session.get("wishlist", {})
@@ -542,36 +553,27 @@ def profile(request):
     )
 @login_required(login_url="login")
 def edit_profile(request):
-
     user = request.user
 
     if request.method == "POST":
-
-        user.full_name = request.POST.get("full_name")
-        user.email = request.POST.get("email")
-        user.mobile_no = request.POST.get("mobile_no")
-        user.alternate_mobile_no = request.POST.get("alternate_mobile_no")
-        user.dob = request.POST.get("dob")
-        user.gender = request.POST.get("gender")
-        user.address = request.POST.get("address")
-
-        if request.FILES.get("profile_image"):
-            user.profile_image = request.FILES.get("profile_image")
-
-        user.save()
-
-        messages.success(request, "Profile updated successfully.")
-
-        return redirect("profile")
+        form = UserProfileEditForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect("profile")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    field_name = field.replace('_', ' ').title() if field != '__all__' else 'Error'
+                    messages.error(request, f"{field_name}: {error}")
+    else:
+        form = UserProfileEditForm(instance=user)
 
     context = {
-
+        "form": form,
         "page_title": "Edit Profile",
-
         "page_heading": "Edit Profile",
-
         "page_subtitle": "Update your personal information.",
-
     }
 
     return render(request, "swiftcart/edit_profile.html", context)
@@ -626,7 +628,7 @@ def my_orders(request):
     return render(request, "swiftcart/my_orders.html", context)
 
 
-@csrf_exempt
+@login_required(login_url="login")
 def payment_success(request):
 
     if request.method != "POST":
@@ -634,9 +636,30 @@ def payment_success(request):
 
     cart = request.session.get("cart", {})
     data = request.session.get("checkout_data")
+    payment_id = request.POST.get("razorpay_payment_id")
+    razorpay_order_id = request.POST.get("razorpay_order_id")
+    signature = request.POST.get("razorpay_signature")
 
-    if not cart or not data:
+    if not cart or not data or not payment_id or not razorpay_order_id or not signature:
         messages.error(request, "Session expired.")
+        return redirect("checkout")
+
+    if razorpay_order_id != data.get("razorpay_order_id"):
+        messages.error(request, "Invalid payment order.")
+        return redirect("checkout")
+
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
+
+    try:
+        client.utility.verify_payment_signature({
+            "razorpay_order_id": razorpay_order_id,
+            "razorpay_payment_id": payment_id,
+            "razorpay_signature": signature,
+        })
+    except razorpay.errors.SignatureVerificationError:
+        messages.error(request, "Payment verification failed. Your order was not placed.")
         return redirect("checkout")
 
     grand_total = 0
@@ -657,8 +680,8 @@ def payment_success(request):
         total_amount=grand_total,
         payment_method="RAZORPAY",
         payment_status="Success",
-        razorpay_order_id=request.POST.get("razorpay_order_id"),
-        razorpay_payment_id=request.POST.get("razorpay_payment_id"),
+        razorpay_order_id=razorpay_order_id,
+        razorpay_payment_id=payment_id,
     )
 
     for product_id, qty in cart.items():

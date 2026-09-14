@@ -10,7 +10,7 @@
         <div
             style="letter-spacing:6px; font-size:12px; text-transform:uppercase; opacity:0.9; font-weight:700; margin-bottom:12px;">
             {{ page_title|default:'SwiftCart' }}</div>
-        <h1 class="banner-title">{{ page_heading|default:page_title|default:'Our Collection' }}</h1>
+        <h1 class="banner-title">{% if page_heading %}{{ page_heading }}{% elif page_title %}{{ page_title }}{% else %}Our Collection{% endif %}</h1>
         {% if page_subtitle %}
         <p class="banner-subtitle mt-3">{{ page_subtitle }}</p>
         {% endif %}

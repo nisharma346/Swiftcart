@@ -1,6 +1,6 @@
 <section class="page-header">
     <div class="container">
-        <h1>{{ page_heading|default:page_title }}</h1>
+        <h1>{% if page_heading %}{{ page_heading }}{% elif page_title %}{{ page_title }}{% else %}SwiftCart{% endif %}</h1>
 
         {% if page_subtitle %}
         <p>{{ page_subtitle }}</p>

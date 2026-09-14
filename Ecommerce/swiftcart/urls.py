@@ -73,4 +73,9 @@ path(
     views.payment_success,
     name="payment_success",
 ),
+path(
+    "orders/<int:order_id>/invoice/",
+    views.invoice,
+    name="invoice",
+),
 ]

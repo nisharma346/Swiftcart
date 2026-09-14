@@ -137,52 +137,73 @@ class CustomUserRegistrationForm(UserCreationForm):
         return user
 
 
-class ContactForm(forms.Form):
-    """Simple contact form for customer inquiries."""
-    name = forms.CharField(
-        max_length=255,
-        required=True,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Your name',
-        }),
-        label='Name'
-    )
-    email = forms.EmailField(
-        required=True,
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Your email',
-        }),
-        label='Email'
-    )
-    subject = forms.CharField(
-        max_length=255,
-        required=True,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Subject',
-        }),
-        label='Subject'
-    )
-    message = forms.CharField(
-        required=True,
-        widget=forms.Textarea(attrs={
-            'class': 'form-control',
-            'placeholder': 'Your message',
-            'rows': 5,
-        }),
-        label='Message'
-    )
+class UserProfileEditForm(forms.ModelForm):
+    """
+    Form for updating CustomUser profile data safely.
+    Handles optional mobile_no and unique constraint validation.
+    """
+    class Meta:
+        model = CustomUser
+        fields = [
+            'full_name',
+            'email',
+            'mobile_no',
+            'alternate_mobile_no',
+            'dob',
+            'gender',
+            'address',
+            'profile_image',
+        ]
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'mobile_no': forms.TextInput(attrs={'class': 'form-control'}),
+            'alternate_mobile_no': forms.TextInput(attrs={'class': 'form-control'}),
+            'dob': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'gender': forms.Select(attrs={'class': 'form-select'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'profile_image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
 
-    def clean_name(self):
-        name = self.cleaned_data.get('name', '').strip()
-        if len(name) == 0:
-            raise forms.ValidationError('Please enter your name.')
-        return name
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['full_name'].required = False
+        self.fields['mobile_no'].required = False
+        self.fields['alternate_mobile_no'].required = False
+        self.fields['dob'].required = False
+        self.fields['gender'].required = False
+        self.fields['address'].required = False
+        self.fields['profile_image'].required = False
 
-    def clean_message(self):
-        message = self.cleaned_data.get('message', '').strip()
-        if len(message) < 10:
-            raise forms.ValidationError('Message should be at least 10 characters long.')
-        return message
+    def clean_mobile_no(self):
+        mobile_no = self.cleaned_data.get('mobile_no')
+        if not mobile_no or not str(mobile_no).strip():
+            return None
+        mobile_no = str(mobile_no).strip()
+        if CustomUser.objects.filter(mobile_no=mobile_no).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError('This mobile number is already registered with another account.')
+        return mobile_no
+
+    def clean_alternate_mobile_no(self):
+        alt_mobile = self.cleaned_data.get('alternate_mobile_no')
+        if not alt_mobile or not str(alt_mobile).strip():
+            return None
+        return str(alt_mobile).strip()
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email or not email.strip():
+            raise forms.ValidationError('Email address cannot be empty.')
+        email = email.strip().lower()
+        if CustomUser.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError('This email address is already registered with another account.')
+        return email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if user.email:
+            user.username = user.email  # Keep username in sync with email
+        if commit:
+            user.save()
+        return user
+
