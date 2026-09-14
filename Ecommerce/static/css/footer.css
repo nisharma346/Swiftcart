@@ -1,29 +1,33 @@
 /* ============================================================
-   SwiftCart Dark Premium Footer Stylesheet
+   SwiftCart Premium Footer - Matched to SwiftCart Logo Color Code
+   Primary Brand Blue: #0d47a1 / #1d4ed8
+   Accent Brand Orange: #ff7a22 / #f97316
 ============================================================ */
 
 .footer {
-    background: #0f172a;
+    background: #091322;
     color: #94a3b8;
     padding: 60px 0 30px;
     font-size: 0.95rem;
     position: relative;
-    border-top: 4px solid #2563eb;
+    border-top: 4px solid;
+    border-image: linear-gradient(90deg, #1d4ed8 0%, #3b82f6 50%, #ff7a22 100%) 1;
 }
 
-/* Logo */
+/* Transparent Footer Logo */
 .footer-logo {
-    max-width: 140px !important;
+    max-width: 180px !important;
     width: 100% !important;
     height: auto !important;
     object-fit: contain;
-    background: #ffffff;
-    padding: 6px 12px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
 }
 
-/* Description */
+/* Description Text */
 .footer-text {
     color: #94a3b8;
     font-size: 0.925rem;
@@ -53,14 +57,14 @@
 }
 
 .social-icons a:hover {
-    background: #2563eb;
+    background: #ff7a22;
     color: #ffffff;
-    border-color: #3b82f6;
+    border-color: #ff7a22;
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 8px 20px rgba(255, 122, 34, 0.4);
 }
 
-/* Headings */
+/* Footer Headings - Matching Logo Accent Orange */
 .footer-heading {
     font-size: 1.15rem;
     font-weight: 700;
@@ -75,9 +79,9 @@
     position: absolute;
     left: 0;
     bottom: -8px;
-    width: 35px;
+    width: 38px;
     height: 3px;
-    background: linear-gradient(90deg, #2563eb, #38bdf8);
+    background: linear-gradient(90deg, #ff7a22, #ff9e59);
     border-radius: 2px;
 }
 
@@ -104,7 +108,7 @@
 .footer-links a i {
     font-size: 0.7rem;
     margin-right: 8px;
-    color: #3b82f6;
+    color: #ff7a22;
     transition: transform 0.25s ease;
 }
 
@@ -114,11 +118,11 @@
 }
 
 .footer-links a:hover i {
-    color: #60a5fa;
-    transform: translateX(2px);
+    color: #ff9e59;
+    transform: translateX(3px);
 }
 
-/* Contact Info Section */
+/* Contact Info Items */
 .contact-item {
     display: flex;
     align-items: flex-start;
@@ -129,8 +133,8 @@
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    background: rgba(37, 99, 235, 0.15);
-    color: #60a5fa;
+    background: rgba(255, 122, 34, 0.15);
+    color: #ff7a22;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -150,7 +154,7 @@
     font-size: 0.9rem;
 }
 
-/* Divider */
+/* Divider Line */
 .footer-divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
@@ -172,7 +176,7 @@
 }
 
 .copyright span {
-    color: #60a5fa;
+    color: #ff7a22;
     font-weight: 700;
 }
 
@@ -198,7 +202,8 @@
 }
 
 .badge-pill:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 122, 34, 0.2);
+    border-color: #ff7a22;
     color: #ffffff;
     transform: translateY(-2px);
 }

@@ -351,7 +351,7 @@ WHY CHOOSE
 }
 
 .newsletter-form button {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, #ff7a22 0%, #ff6600 100%);
     color: #ffffff;
     border: none;
     padding: 0 32px;
@@ -363,8 +363,8 @@ WHY CHOOSE
 }
 
 .newsletter-form button:hover {
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    background: linear-gradient(135deg, #ff6600 0%, #e65c00 100%);
+    box-shadow: 0 4px 15px rgba(255, 122, 34, 0.4);
 }
     height: 72px;
     border: none;
