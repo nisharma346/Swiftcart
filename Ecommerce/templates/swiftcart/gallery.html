@@ -1,176 +1,241 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Gallery | SwiftCart{% endblock %}
+{% block title %}Gallery & Visual Collections | SwiftCart{% endblock %}
 
 {% block extra_css %}
-<style>
-    .gallery-page {
-        max-width: 1200px;
-        margin: 20px auto 50px;
-        padding: 0 15px;
-    }
-
-    .gallery-grid {
-        margin-top: 10px;
-    }
-
-    .gallery-card {
-        background: #fff;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
-        transition: .3s;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .gallery-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 14px 30px rgba(0, 0, 0, .15);
-    }
-
-    .gallery-image {
-        overflow: hidden;
-    }
-
-    .gallery-image img {
-        width: 100%;
-        height: 240px;
-        object-fit: cover;
-        transition: .4s;
-    }
-
-    .gallery-card:hover img {
-        transform: scale(1.08);
-    }
-
-    .gallery-body {
-        padding: 18px;
-        flex: 1;
-    }
-
-    .gallery-title {
-        font-size: 21px;
-        font-weight: 700;
-        margin-bottom: 8px;
-        color: #222;
-    }
-
-    .gallery-caption {
-        color: #666;
-        font-size: 15px;
-        line-height: 1.6;
-        margin-bottom: 0;
-    }
-
-    .gallery-grid .col-lg-4 {
-        display: flex;
-    }
-
-    .gallery-grid .gallery-card {
-        width: 100%;
-    }
-
-    @media(max-width:992px) {
-
-        .gallery-image img {
-            height: 220px;
-        }
-
-        .gallery-title {
-            font-size: 19px;
-        }
-
-    }
-
-    @media(max-width:768px) {
-
-        .gallery-page {
-            margin-top: 15px;
-        }
-
-        .gallery-image img {
-            height: 190px;
-        }
-
-        .gallery-title {
-            font-size: 18px;
-        }
-
-        .gallery-caption {
-            font-size: 14px;
-        }
-
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<section class="gallery-page">
+<!-- ================= GALLERY SECTION ================= -->
+<section class="gallery-section">
+    <div class="container">
 
-    {% if images %}
-
-    <div class="gallery-grid row g-4">
-
-        {% for image in images %}
-
-        <div class="col-12 col-md-6 col-lg-4">
-
-            <div class="gallery-card">
-
-                <div class="gallery-image">
-
-                    {% if image.image %}
-                    <img src="{{ image.image.url }}" alt="{{ image.title }}">
-                    {% else %}
-                    <img src="{% static 'images/no-image.png' %}" alt="No Image">
-                    {% endif %}
-
-                </div>
-
-                <div class="gallery-body">
-
-                    <h5 class="gallery-title">
-                        {{ image.title|default:"Gallery Image" }}
-                    </h5>
-
-                    {% if image.caption %}
-                    <p class="gallery-caption">
-                        {{ image.caption }}
-                    </p>
-                    {% endif %}
-
-                </div>
-
-            </div>
-
+        <!-- Header Title Banner -->
+        <div class="text-center mb-5">
+            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-semibold mb-2">
+                <i class="fas fa-camera me-1"></i> SwiftCart Showcase
+            </span>
+            <h1 class="fw-bold display-5 text-dark">Visual Collections & Style Edits</h1>
+            <p class="text-muted fs-6 mx-auto" style="max-width: 650px;">
+                Explore our curated lookbooks, seasonal highlights, festive collections, and top shopper favorites.
+            </p>
         </div>
 
-        {% endfor %}
+        {% if images %}
+
+        <!-- Filter Controls Bar -->
+        <div class="gallery-filter-bar d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <!-- Filter Pills -->
+            <div class="d-flex flex-wrap gap-2" id="galleryFilterButtons">
+                <button type="button" class="filter-btn active" data-filter="all">All Showcase</button>
+                <button type="button" class="filter-btn" data-filter="collections">Collections</button>
+                <button type="button" class="filter-btn" data-filter="favorites">Favorites</button>
+                <button type="button" class="filter-btn" data-filter="trends">Trends & Sales</button>
+            </div>
+
+            <!-- Search Input -->
+            <div class="search-icon-wrapper ms-auto">
+                <i class="fas fa-search"></i>
+                <input type="text" id="gallerySearchInput" class="gallery-search-input" placeholder="Search gallery...">
+            </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="row g-4" id="galleryContainer">
+            {% for image in images %}
+            <div class="col-12 col-md-6 col-lg-4 gallery-item" 
+                 data-title="{{ image.title|lower }}" 
+                 data-caption="{{ image.caption|lower }}"
+                 data-category="{% if 'festive' in image.title|lower or 'collection' in image.title|lower %}collections{% elif 'favorite' in image.title|lower %}favorites{% else %}trends{% endif %}">
+                
+                <div class="gallery-card">
+                    <!-- Category Badge -->
+                    <span class="gallery-badge">
+                        <i class="fas fa-sparkles me-1"></i> Lookbook
+                    </span>
+
+                    <!-- Thumbnail Container -->
+                    <div class="gallery-thumb-container">
+                        {% if image.image %}
+                        <img src="{{ image.image.url }}" alt="{{ image.title }}" loading="lazy">
+                        {% else %}
+                        <img src="{% static 'images/no-image.png' %}" alt="No Image">
+                        {% endif %}
+
+                        <!-- Hover Overlay Actions -->
+                        <div class="gallery-overlay">
+                            <div>
+                                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fw-semibold shadow-sm">
+                                    <i class="fas fa-eye me-1 text-primary"></i> Quick View
+                                </span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="overlay-btn like-btn" onclick="toggleLike(this, event)">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button type="button" class="overlay-btn open-lightbox-btn" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#lightboxModal"
+                                        data-img-src="{% if image.image %}{{ image.image.url }}{% else %}{% static 'images/no-image.png' %}{% endif %}"
+                                        data-title="{{ image.title }}"
+                                        data-caption="{{ image.caption }}">
+                                    <i class="fas fa-expand-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="gallery-body">
+                        <div>
+                            <h3 class="gallery-title">{{ image.title|default:"Featured Gallery" }}</h3>
+                            {% if image.caption %}
+                            <p class="gallery-caption">{{ image.caption }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                            <span class="text-muted small"><i class="fas fa-calendar-alt me-1"></i> Curated Highlight</span>
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 open-lightbox-btn"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#lightboxModal"
+                                    data-img-src="{% if image.image %}{{ image.image.url }}{% else %}{% static 'images/no-image.png' %}{% endif %}"
+                                    data-title="{{ image.title }}"
+                                    data-caption="{{ image.caption }}">
+                                Preview <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- No Results Search Alert -->
+        <div id="noGalleryResults" class="text-center py-5 d-none">
+            <div class="bg-white p-5 rounded-4 shadow-sm border mx-auto" style="max-width: 450px;">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h4 class="fw-bold">No Matching Showcase Found</h4>
+                <p class="text-muted mb-0">Try searching for different keywords or select 'All Showcase'.</p>
+            </div>
+        </div>
+
+        {% else %}
+
+        <div class="text-center py-5">
+            <div class="bg-white p-5 rounded-4 shadow-sm border mx-auto" style="max-width: 500px;">
+                <i class="fas fa-images fa-4x text-primary mb-3"></i>
+                <h3 class="fw-bold">No Gallery Showcase Available</h3>
+                <p class="text-muted">New seasonal collections and lookbooks will appear here soon.</p>
+            </div>
+        </div>
+
+        {% endif %}
 
     </div>
-
-    {% else %}
-
-    <div class="text-center py-5">
-
-        <img src="{% static 'images/no-image.png' %}" width="150">
-
-        <h3 class="mt-4">
-            No Gallery Images Available
-        </h3>
-
-        <p class="text-muted">
-            Images uploaded from the admin panel will appear here.
-        </p>
-
-    </div>
-
-    {% endif %}
-
 </section>
 
+<!-- ================= LIGHTBOX MODAL ================= -->
+<div class="modal fade lightbox-modal" id="lightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <span class="badge bg-primary text-white rounded-pill px-3 py-2">
+                    <i class="fas fa-image me-1"></i> Full Resolution Preview
+                </span>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="lightbox-img-wrapper">
+                    <img id="modalImg" src="" alt="Full Preview">
+                </div>
+                <div class="lightbox-details">
+                    <h3 id="modalTitle"></h3>
+                    <p id="modalCaption" class="mb-0"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Filter Buttons
+        const filterBtns = document.querySelectorAll("#galleryFilterButtons .filter-btn");
+        const galleryItems = document.querySelectorAll(".gallery-item");
+        const searchInput = document.getElementById("gallerySearchInput");
+        const noResults = document.getElementById("noGalleryResults");
+
+        function filterGallery() {
+            const activeFilter = document.querySelector("#galleryFilterButtons .filter-btn.active").getAttribute("data-filter");
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+            let visibleCount = 0;
+
+            galleryItems.forEach(item => {
+                const category = item.getAttribute("data-category");
+                const title = item.getAttribute("data-title");
+                const caption = item.getAttribute("data-caption");
+
+                const matchesFilter = (activeFilter === "all" || category === activeFilter);
+                const matchesSearch = (!query || title.includes(query) || caption.includes(query));
+
+                if (matchesFilter && matchesSearch) {
+                    item.style.display = "block";
+                    visibleCount++;
+                } else {
+                    item.style.display = "none";
+                }
+            });
+
+            if (noResults) {
+                if (visibleCount === 0) {
+                    noResults.classList.remove("d-none");
+                } else {
+                    noResults.classList.add("d-none");
+                }
+            }
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", function () {
+                filterBtns.forEach(b => b.classList.remove("active"));
+                this.classList.add("active");
+                filterGallery();
+            });
+        });
+
+        if (searchInput) {
+            searchInput.addEventListener("input", filterGallery);
+        }
+
+        // Lightbox Modal Setup
+        const modalImg = document.getElementById("modalImg");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalCaption = document.getElementById("modalCaption");
+
+        const previewBtns = document.querySelectorAll(".open-lightbox-btn");
+        previewBtns.forEach(btn => {
+            btn.addEventListener("click", function () {
+                const imgSrc = this.getAttribute("data-img-src");
+                const title = this.getAttribute("data-title");
+                const caption = this.getAttribute("data-caption");
+
+                if (modalImg) modalImg.src = imgSrc;
+                if (modalTitle) modalTitle.textContent = title || "Gallery Image";
+                if (modalCaption) modalCaption.textContent = caption || "";
+            });
+        });
+    });
+
+    function toggleLike(button, event) {
+        event.stopPropagation();
+        button.classList.toggle("active");
+    }
+</script>
 {% endblock %}
